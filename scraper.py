@@ -3,24 +3,25 @@ from bs4 import BeautifulSoup
 
 url = "https://crazyninjaodds.com/site/tools/positive-ev.aspx"
 
+#parameters for the post request
 headers = {
-    'accept': '*/*',
-    'accept-encoding': 'gzip, deflate, br, zstd',
-    'accept-language': 'en-US,en;q=0.9',
-    'cache-control': 'no-cache',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'origin': 'https://crazyninjaodds.com',
-    'priority': 'u=1, i',
-    'referer': 'https://crazyninjaodds.com/site/tools/positive-ev.aspx',
-    'sec-ch-ua': '"Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
-    'x-microsoftajax': 'Delta=true',
-    'x-requested-with': 'XMLHttpRequest'
+    "accept": "*/*",
+    "accept-encoding": "gzip, deflate, br, zstd",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "origin": "https://crazyninjaodds.com",
+    "priority": "u=1, i",
+    "referer": "https://crazyninjaodds.com/site/tools/positive-ev.aspx",
+    "sec-ch-ua": '"Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+    "x-microsoftajax": "Delta=true",
+    "x-requested-with": "XMLHttpRequest"
 }
 
 cookies = {
@@ -50,9 +51,6 @@ data = {
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$WebUserControl_FilterSubMarketSideCount$TextBoxMaximumSubMarketSideCount": "",
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$WebUserControl_FilterSubMarketSideCount$CheckBoxRequireACompleteSportsbook": "on",
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$WebUserControl_FilterOddsProviderCount$TextBoxMinimumOddsProviderCount": "3",
-    "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$TabContainerPopupCalc$TabPanelPopupCalc_EV$TextBoxPopupCalc_BetOdds": "-240",
-    "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$TabContainerPopupCalc$TabPanelPopupCalc_Settings$TextBoxPopupCalc_KellyBankroll": "$1000",
-    "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$TabContainerPopupCalc$TabPanelPopupCalc_Settings$TextBoxPopupCalc_KellyMultiplier": "0.25",
     "__EVENTTARGET": "",
     "__EVENTARGUMENT": "",
     "__VIEWSTATE": "euhoQn0Y6t7Bz2Pul5xVPab4nfwAfL5lDysPF3nkZl0vPUgEDqG4O5212zGsZOVlz0FyX0afkM8SzFg7tTyJv1CUsiC5NSciWXqQADX5qa8mqdjYzRLy7gd7TRgjx2JhUrWuZFMK8t/sNEJRu7lE4uQ6NAzNCSZQXFrkCOhlrbi+vYUS8bzee0UzPy1j90130fYBnQNsK2q8bIENmojTRj/uu5LesMkNQNfmOU9Y+hjmUCz6ZEmJgC1w/HyZpxZM+PMRvXPtjYpvntNu7QFdcJi0BLVJbHVgcl7GJDFk5MjhdDdjjbpOndlgCGymvaYhuiOceoqII5F3Bua4To2Bmmw35JZX9uShdKhtgufPjyVevPFAVPFOo25f7v8PTH6+35IpPoO8MPZxtVjQAsX/eJYLA96soeMTNnMolsIFSSIPOaxLeKYejzmtPNRZ4J5xUmz1OGC1VVpUehJNxgt+wTzYthklqAAPhHkmISpdHHG/nlNLPgoyBtiuBF19QOiSHD87sMaDjmv6dIBM3NOmsanmk06H/KYnlMAM0BHHVE5ffAfS4BWXXrD5m+YUSVCTejYH0DwPRrFu2kUXyUbPnkcAR9BFFFbjkUEmtpStqYCu8WdvclVaixhimBYKPA5no2EzkbIXZnm17XPS+/fkUvb8J1bIxFRAnoK+WD0jUdkLZS9kLp3bXXMkpXDT2knkYmdeREEBdiF5E5sYjfkAr8yoIR2jG8zoi4jFD19uxKeSZyncbfpqVR8c3LvAE4rVAVAvKdbo7AJU19DUGAnci4jpYwSZs8Ovp0HidUAr5u5gxYUqg6sXi4/dI4BP+bGA/EVWyDw+Gv546MLJ75abzxnbVwTKMH5XfdEcVYzaAMBP983uElJJs6RS80mpSaCxbfZMZAHKTlPcQkt2Elm8FkkoHBefa7nkPiUzybm1fPelFx7L/JNUYMZXV7ZdtBVhHjGgr1LTSEf2pBPdIgnQ5LgMWxW09SdqkbVpQd0kBtzC68d24Rb0/tQXhpRoXtb5n4gr/YTslqFSrSzanvT04pT+xXLCLIv5cp+v6ninWy5zKlimZ3g17vJm65czzrcRxdmn5doNfkpGTdiATLaQPRzdh7VM1Wi9ef0FH3dy1S4rv/UpQ3OSRWiuLtWjnnlngP3fXGhgPM8bi4DPtXfbQaNKJNJw8a9wHBRGdHZNt/AjoMk+9lqbIcHKzOylOXC/aGuapl5PdDuCCCPeK4V/Llpzwp7QH9bZ7nMFLn8iPNx2OYGrLCOxroXK8EdfHibrJnU69YOC+zwVoNxqIxKU4N9bCvW4KNb7MPPRvgUGyH+SXfi052zv+mno1G8FM7NB45AzXwgYN+CJWNYlXocQzBnq15AldfNTGwVKMnoeahCGOLVYqgkSo4SN+U8TpeW3Xm6iJRGzUgjMBwCwgO7NUGn4Rs3wpeEhTRIW1G0UqEApeQ3Lzqk86wJun6tsI/AvM+twvUpT0Hukfv2HQpvATUmQh97bTCvo9QoHnNfNAOEIG6BQqRTffTCbVkMxCUCeqSIOn82v2JX2a7EoVTOhPWbxNZj+GNPTww1ytinKz4F+P3+KjNaSXnoQ8bKgupHZUPoC5hxUZSVp6DYO33+p44hWTfODoaQuvdQPIiwPZ8ND3hE+yXyX6gzRkDUj5YrRihlzz90I5WJJKCkWoflBSw==",
@@ -62,10 +60,29 @@ data = {
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$ButtonUpdate": "Update"
 }
 
-response = requests.post(url, headers=headers, cookies=cookies, data=data)
+response = requests.post(url, headers=headers,cookies=cookies, data=data)
 
 if response.status_code != 200:
     exit("Error fetching website data")
 
-print(response.text)
+soup = BeautifulSoup(response.text, "html.parser")
+
+#parse the html into data
+data = [] #list of dicts
+html_table = soup.find("tbody")
+for entry in html_table.find_all("tr"):
+    categories = entry.find_all("td")
+    bet = {
+        "EV": categories[0].text,
+        "Sport": categories[4].text,
+        "League": categories[5].text,
+        "Game": categories[6].text,
+        "Market": categories[7].text,
+        "BetName": categories[8].text,
+        "Odds": categories[9].text,
+        "Book": categories[10].text,
+        "FairOdds": categories[11].text,
+        "BookCount": categories[12].text
+    }
+    data.append(bet)
 
