@@ -1,6 +1,6 @@
 #--CNO POST REQUEST CONSTANTS--#
-URL = "https://crazyninjaodds.com/site/tools/positive-ev.aspx"
-HEADERS = {
+CNO_URL = "https://crazyninjaodds.com/site/tools/positive-ev.aspx"
+CNO_HEADERS = {
     "accept": "*/*",
     "accept-encoding": "gzip, deflate, br, zstd",
     "accept-language": "en-US,en;q=0.9",
@@ -19,7 +19,7 @@ HEADERS = {
     "x-microsoftajax": "Delta=true",
     "x-requested-with": "XMLHttpRequest"
 }
-COOKIES = {
+CNO_COOKIES = {
     "ASP.NET_SessionId": "c4pdhsx03f2nhc3fe3wd3cqc",
     "BetaKelly": "KellyBankroll=1000&KellyMultiplier=0.25",
     "BetaSettings": "ExcludedSportsbooks=47gNHjPb3xG+WDnT72armcIZfs0moxsX6K5EStzHrQZYsDfT2dnKyRluTvtg+FwwQjqXyqqJp0E9rUra2tb2Zh/f/n6rqEk3QNefZH+zOiHsz5tmDrK4HHSSKxTexfBFrgJoCzpmDIdZ/m3/nOXObw==&ExcludedAffiliateLinks=XCFYicDA1el1bE352vBHM8dxp6/maxsRc6Xk7cYfJphLx7Moiq8CA5e+KDkMNTmcpq8O5j+DCCHSzG+ZtwzAnA==",
@@ -27,7 +27,7 @@ COOKIES = {
     "BetaWarningLimits": "Read=1",
     "General": "KellyMultiplier=.25&KellyBankRoll=1000&DevigMethodIndex=4&WorstCaseDevigMethod_Multiplicative=True&WorstCaseDevigMethod_Additive=True&WorstCaseDevigMethod_Power=True&WorstCaseDevigMethod_Shin=True&MultiplicativeWeight=0&AdditiveWeight=0&PowerWeight=0&ShinWeight=0&ShowEVColorIndicator=False&ShowDetailedDevigInfo=False&CopyToClipboard_Reddit=False&CopyToClipboard_DevigURL=True&CopyToClipboard_Reddit_IncludeDevigURL=True&CopyToClipboard_Reddit_Mini=False&ShowHedgeDevigMethod=False&UseMultilineTextbox=False&StartWithEmptyFields=False"
     }
-DATA = {
+CNO_DATA = {
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$ScriptManager1": "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$UpdatePanelGridView|ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$ButtonUpdate",
     "ContentPlaceHolderMain_ContentPlaceHolderRight_TabContainerPopupCalc_ClientState": '{"ActiveTabIndex":0,"TabEnabledState":[true,true],"TabWasLoadedOnceState":[true,false]}',
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$WebUserControl_FilterPositiveEVSportsbookSite$DropDownListSportsbookSite_All": "0",
@@ -52,4 +52,38 @@ DATA = {
     "__EVENTVALIDATION": "YCHYdd0VAfCWoHcR6Lf02lxKEtPxhWiHuOvX/GVRwviN6CuHbWq2oi2V2+CYieP8iHOvi7N4q/GE0SoYcLZjwlIHYLugPO4XuBiF86dOK4O7DqbZL7geDKO5aze9E+I/VjI04X1fLBbQyGeMSQ1+oF442m8FWUIK8Qq+BnCojkoP1m9uVGmdOPkREszc8V0Dfymc5eNCZ/wV2uA6Cj+fMlB94jNL3gOrlHy3mpdnLufniqZCHkM9VdY8Y5qkpOJSDCbWefhUUkRNYRq0FmnEatlz8We0yk1dnO6tnTMDJSdljZ8/U6yQdpSiDk9vevS4S1Akp9+jAO3n1XGmfTVleFaXiUCK3e4crsbeaX5M8xgNngF8oZIUQ4YYMxodyqujHnWnipskW4qO4vTRBmg4CsCXcswnoIEXVHqqSLRdcUcp+pAYTV48n4yWaTYT84BHobz6JbHs2x1lioWzitVoM77q4nSW8wpyZZqU++1rPBAWzEBlzrd6ELHUu6ViBHQDcJAy/8GQwgqi/DBuCeADmBBRbh0APF7T/bV99bewg/wvPulPn5+0eACwIkcCQFgy2CA4ubF6pA2Zp/4XIKKOo0Zscfvn5nrXXY47uapHnJCnZUHcReyJzMO4dGOnHW9+9VRaO2BO0fEZGISOsd191yYBQpDz3mBQxNJqoqeVne9n41KVOIVl+iev4gweHjp+ZielBkb9srT4AkjLCtThWSBs7BfMfyojGAk1wngas4nTHoW8C8Txwbho/ROiw8KF5/O01Y5P6lHaQ/gPbwfpxyBKrZPKKmr9UswuzFDTK67jt4IVHqkEtxOCom7l5LW9pN4GcT1EM9suKkoOB0GuL/1gCHmZqv4HIz1xsPe55rgRCdbC50hxbW7917G5x5sI6RZ5as0ZNZWG23rLSG+h7eLqY9RM4BwNIiP8fwNpzvOoyaoHD2AVPIWratX48wuOwnKiD63aeYCTpCgySPpHwA==",
     "__ASYNCPOST": "true",
     "ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderRight$ButtonUpdate": "Update"
+}
+
+#--NBA STATS REQUEST CONSTANTS--#
+NBA_URL = "https://stats.nba.com/stats/leaguegamelog"
+NBA_HEADERS = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive",
+    "Host": "stats.nba.com",
+    "Origin": "https://www.nba.com",
+    "Referer": "https://www.nba.com/",
+    "Sec-CH-UA": "\"Not A(Brand\";v=\"8\", \"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\"",
+    "Sec-CH-UA-Mobile": "?0",
+    "Sec-CH-UA-Platform": "\"Windows\"",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+}
+NBA_COOKIES = {
+    "ak_bmsc": "2A29C71522909D8692FCCABB4F156F91~000000000000000000000000000000~YAAQT6TAF8lgmoyUAQAAW9hToRqyoElxpqWmuwXdylvgkhqHLlq5Z/GPFe52xGPjoFntTwqcocqlKb8bxfhlU0zvFI7KiFjeae+wCzmsMNrSzGffwbnVaEWxDDIY3FBzUWVmBINQSJSOvVA3Xidb6NLByxY4yYkt4k9ak9YIBxzzUD6r16jAnIjMEDxB9zl0iZ0+n3Du5XSSuont4ktDgei76LyYYxXdAjgYs90fThO6hqfTcKMuZGVwYx6QkoZKDpLyqKp8mL3/vl/OnsyvzREg6Q6arnvimI2mbaeLtDePYfQqVd6vvrL6siCya6CKFvzb1Lal5byJIYiYEYRIzvLcH8b0ijglhyiU6fJ2694ZQ/42xBB6WNOkGpoFrg=="
+}
+NBA_PARAMS = {
+    "Counter": "1000",
+    "DateFrom": "01/25/2025",
+    "DateTo": "01/25/2025",
+    "Direction": "DESC",
+    "ISTRound": "",
+    "LeagueID": "00",
+    "PlayerOrTeam": "P",
+    "Season": "2024-25",
+    "SeasonType": "Regular Season",
+    "Sorter": "DATE"
 }
