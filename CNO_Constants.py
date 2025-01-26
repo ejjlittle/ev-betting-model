@@ -1,10 +1,4 @@
-#--BETTING MODEL CONSTANTS--#
-MINIMUM_EV_PERCENTAGE = 7
-LEAGUES = ["NBA"]
-BOOKS = ["FanDuel", "DraftKings", "BetMGM"]
-MINIMUM_BOOK_COUNT = 5
-
-#--WEB REQUEST CONSTANTS--#
+#--CNO POST REQUEST CONSTANTS--#
 URL = "https://crazyninjaodds.com/site/tools/positive-ev.aspx"
 HEADERS = {
     "accept": "*/*",

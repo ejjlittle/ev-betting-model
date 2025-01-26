@@ -1,6 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from constants import URL, HEADERS, COOKIES, DATA, MINIMUM_EV_PERCENTAGE, LEAGUES, BOOKS, MINIMUM_BOOK_COUNT
+import CNO_Constants
+
+#--BETTING MODEL CONSTANTS--#
+MINIMUM_EV_PERCENTAGE = 7
+MAXIMUM_EV_PERCENTAGE = 40
+LEAGUES = ["NBA"]
+BOOKS = ["FanDuel", "DraftKings", "BetMGM"]
+MINIMUM_BOOK_COUNT = 5
 
 #--PARSE HTML INTO DATA--#
 def htmlParse(content):
@@ -27,7 +34,11 @@ def htmlParse(content):
 
 #--FILTER DATA BASED ON MODEL CONSTANTS--#
 def filterData(data):
-    for i in range(len(data)): #filter by EV
+    for i in range(len(data)): #filter by min EV
+        if data[i]["EV"] < MINIMUM_EV_PERCENTAGE:
+            data = data[:i]
+            break
+    for i in range(len(data)): #filter by max EV
         if data[i]["EV"] < MINIMUM_EV_PERCENTAGE:
             data = data[:i]
             break
@@ -36,12 +47,16 @@ def filterData(data):
     data = [entry for entry in data if entry["BookCount"] >= MINIMUM_BOOK_COUNT] #filter by book count
     return data
 
+#get html response from CNO post request
+response = requests.post(CNO_Constants.URL, 
+                         headers=CNO_Constants.HEADERS,
+                         cookies=CNO_Constants.COOKIES,
+                           data=CNO_Constants.DATA)
 
-response = requests.post(URL, headers=HEADERS,cookies=COOKIES, data=DATA)
-
+#check requests connection
 if response.status_code != 200:
     exit("Error fetching website data")
 
-data = htmlParse(response.text)
-data = filterData(data)
-print(data)
+cnoData = htmlParse(response.text)
+cnoData = filterData(cnoData)
+print(cnoData)
