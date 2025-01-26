@@ -13,7 +13,8 @@ def parseData(content):
             "Threes": entry[14],
             "Steals": entry[24],
             "Blocks": entry[25],
-            "Turnovers": entry[26]
+            "Turnovers": entry[26],
+            "Minutes": entry[10]
         }
         playerName = entry[2]
         data[playerName] = statline
