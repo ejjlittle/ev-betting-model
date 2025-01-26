@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 import constants
 
 #--UNPACK RAW DATA TO DICTIONARY--#
@@ -20,12 +19,10 @@ def parseData(content):
         data[playerName] = statline
     return data
 
-def main():
+def main(month, day, year):
   #get response from NBA get request
-  response = requests.get(constants.NBA_URL, 
-                          headers=constants.NBA_HEADERS,
-                          cookies=constants.NBA_COOKIES,
-                            params=constants.NBA_PARAMS)
+  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + month + "%2F" + day + "%2F" + year + "&DateTo=01%2F26%2F25&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+  response = requests.get(url, headers=constants.NBA_HEADERS,)
 
   #check requests connection
   if response.status_code != 200:
@@ -35,5 +32,5 @@ def main():
   return data
 
 if __name__ == "__main__":
-    data = main() #for testing
+    data = main('01', '25', '25') #for testing
     print(data)

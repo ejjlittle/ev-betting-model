@@ -55,7 +55,6 @@ CNO_DATA = {
 }
 
 #--NBA STATS REQUEST CONSTANTS--#
-NBA_URL = "https://stats.nba.com/stats/leaguegamelog"
 NBA_HEADERS = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate, br, zstd",
@@ -71,19 +70,4 @@ NBA_HEADERS = {
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-site",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
-}
-NBA_COOKIES = {
-    "ak_bmsc": "2A29C71522909D8692FCCABB4F156F91~000000000000000000000000000000~YAAQT6TAF8lgmoyUAQAAW9hToRqyoElxpqWmuwXdylvgkhqHLlq5Z/GPFe52xGPjoFntTwqcocqlKb8bxfhlU0zvFI7KiFjeae+wCzmsMNrSzGffwbnVaEWxDDIY3FBzUWVmBINQSJSOvVA3Xidb6NLByxY4yYkt4k9ak9YIBxzzUD6r16jAnIjMEDxB9zl0iZ0+n3Du5XSSuont4ktDgei76LyYYxXdAjgYs90fThO6hqfTcKMuZGVwYx6QkoZKDpLyqKp8mL3/vl/OnsyvzREg6Q6arnvimI2mbaeLtDePYfQqVd6vvrL6siCya6CKFvzb1Lal5byJIYiYEYRIzvLcH8b0ijglhyiU6fJ2694ZQ/42xBB6WNOkGpoFrg=="
-}
-NBA_PARAMS = {
-    "Counter": "1000",
-    "DateFrom": "01/25/2025",
-    "DateTo": "01/25/2025",
-    "Direction": "DESC",
-    "ISTRound": "",
-    "LeagueID": "00",
-    "PlayerOrTeam": "P",
-    "Season": "2024-25",
-    "SeasonType": "Regular Season",
-    "Sorter": "DATE"
 }
