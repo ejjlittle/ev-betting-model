@@ -39,3 +39,4 @@ nbaData = nbaScraper.main(month, day, year)
 #store daily profit
 placedBets[dateDay]["DailyBets"], dailyProfit = nbaGrader.main(nbaData, placedBets[dateDay]["DailyBets"])
 placedBets[dateDay]["Profit"] = dailyProfit
+print(dateDay, dailyProfit)

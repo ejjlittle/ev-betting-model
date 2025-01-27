@@ -22,12 +22,15 @@ def getStatline(player, market, data):
     
     for stat in stats:
         total += data[player][stat]
+
     return total
+
 
 def main(data, dailyBets):
     dailyProfit = 0
     for player, bet in dailyBets.items():
         statline = getStatline(player, bet["Market"], data)
+
         if not statline: #no data or player did not play (bet voided)
             continue
 

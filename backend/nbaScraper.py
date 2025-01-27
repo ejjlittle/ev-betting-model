@@ -20,6 +20,7 @@ def parseData(content):
         data[playerName] = statline
     return data
 
+
 def main(month, day, year):
   #get response from NBA get request
   url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + month + "%2F" + day + "%2F" + year + "&DateTo=01%2F26%2F25&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"

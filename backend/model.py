@@ -76,6 +76,7 @@ def main(data, unitSize, dailyBets, time):
             "FairOdds": entry["FairOdds"], #eg. -200
             "BookCount": entry["BookCount"] #number of books where bet is available
         }
+        
         #place the bet
         dailyBets[player] = bet
     

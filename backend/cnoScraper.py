@@ -26,6 +26,7 @@ def htmlParse(content):
         data.append(bet)
     return data
 
+
 #--FILTER DATA BASED ON MODEL CONSTANTS--#
 def filterData(data, minEv, maxEv, leagues, books, minBooks):
     for i in range(len(data)): #filter by min EV
@@ -44,6 +45,8 @@ def filterData(data, minEv, maxEv, leagues, books, minBooks):
     data = [entry for entry in data if entry["BookCount"] >= minBooks] #filter by book count
     return data
 
+
+
 def main(minEv, maxEv, leagues, books, minBooks):
     #get html response from CNO post request
     response = requests.post(constants.CNO_URL, 
@@ -60,5 +63,5 @@ def main(minEv, maxEv, leagues, books, minBooks):
     return data
 
 if __name__ == "__main__":
-    data = main(0, 40, ["NBA", "NHL", "NFL", "NCAAB", "NCAAF"], ["FanDuel", "DraftKings", "BetMGM"], 5) #for testing
+    data = main(7, 40, ["NBA", "NHL", "NFL", "NCAAB", "NCAAF"], ["FanDuel", "DraftKings", "BetMGM"], 5) #for testing
     print(data)
