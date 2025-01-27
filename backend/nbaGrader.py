@@ -1,5 +1,7 @@
 from decimal import Decimal, ROUND_HALF_UP
 
+TWOPLACES = Decimal(10) ** -2
+
 #--AMERICAN ODDS TO DECIMAL ODDS--#
 def americanDecimal(odds):
     if odds[0] == '+':
@@ -31,18 +33,19 @@ def main(data, dailyBets):
     for player, bet in dailyBets.items():
         statline = getStatline(player, bet["Market"], data)
 
-        if not statline: #no data or player did not play (bet voided)
+        if not statline or data["Minutes"] == 0: #no data or player did not play (bet voided)
             continue
 
         line = float(bet["BetName"].split()[1])
         if bet["BetName"].split()[0] == "Over" and statline > line: #bet won
-            profit = bet["Wager"] * Decimal(str(americanDecimal(bet["Odds"]))) 
+            profit = Decimal(bet["Wager"]) * Decimal(str(americanDecimal(bet["Odds"]))) 
         elif bet["BetName"].split()[0] == "Under" and statline < line: #bet won
-            profit = bet["Wager"] * Decimal(str(americanDecimal(bet["Odds"])))
+            profit = Decimal(bet["Wager"]) * Decimal(str(americanDecimal(bet["Odds"])))
         else: #bet lost
-            profit = bet["Wager"] * -1
-        bet["Profit"] = Decimal(profit).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+            profit = Decimal(bet["Wager"]) * -1
+        bet["Profit"] = profit.quantize(TWOPLACES)
         dailyProfit += bet["Profit"]
+        bet["Profit"] = str(bet["Profit"]) #store as str to preserve precision
         print(player, bet["Profit"])
 
     return dailyBets, dailyProfit

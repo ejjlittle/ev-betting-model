@@ -1,10 +1,11 @@
 import pytz
 from datetime import datetime
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
 
 #--GENERAL CONSTANTS--#
 EST = pytz.timezone("US/Eastern")
 FORMAT = "%m/%d/%Y %H:%M:%S"
+TWOPLACES = Decimal(10) ** -2
 
 #--GET PERCENTAGE OF WINNING FROM FAIR ODDS--#
 def fairOddsPercentage(fairOdds):
@@ -39,6 +40,8 @@ def formatTime(time):
     return estTime
 
 def main(data, unitSize, dailyBets, time):
+    amountWagered = 0
+    newBets = {}
     for entry in data:
         date = formatTime(entry["Date"])
         #only place bets within the same day
@@ -58,10 +61,11 @@ def main(data, unitSize, dailyBets, time):
         if player in dailyBets:
             continue
 
+        wager = Decimal(qKelly(entry["FairOdds"], entry["Odds"]) * 100 * unitSize).quantize(TWOPLACES)
         #bet is good - format data
         bet = {
-            "Wager": Decimal(qKelly(entry["FairOdds"], entry["Odds"]) * 100 * unitSize).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) , #amount bet
-            "Profit": Decimal(0).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP), #profit is 0.00 until graded
+            "Wager": str(wager), #store as str to preserve precision
+            "Profit": '0.00', #profit is 0.00 until graded
             "EV": entry["EV"], #expected value as percentage
             "Date": datetime.strftime(date, "%m/%d/%Y"), #eg. 1/25/2025
             "GameTime": datetime.strftime(date, "%I:%M %p"), #eg. 7:30 pm
@@ -78,6 +82,7 @@ def main(data, unitSize, dailyBets, time):
         }
         
         #place the bet
-        dailyBets[player] = bet
+        newBets[player] = bet
+        amountWagered += wager
     
-    return dailyBets
+    return newBets, amountWagered

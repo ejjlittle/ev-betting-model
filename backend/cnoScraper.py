@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import constants
+from pprint import pprint
 
 #--PARSE HTML INTO DATA--#
 def htmlParse(content):
@@ -34,11 +35,13 @@ def filterData(data, minEv, maxEv, leagues, books, minBooks):
             data = data[:i]
             break
 
+    index = 0
     for i in range(len(data)): #filter by max EV
         if data[i]["EV"] <= maxEv:
             break #common case is that every EV is below the max
         else:
-            data.pop(0)
+            index = i + 1
+    data = data[index:]
 
     data = [entry for entry in data if entry["League"] in leagues] #filter by league
     data = [entry for entry in data if entry["Book"] in books] #filter by book
@@ -64,4 +67,4 @@ def main(minEv, maxEv, leagues, books, minBooks):
 
 if __name__ == "__main__":
     data = main(7, 40, ["NBA", "NHL", "NFL", "NCAAB", "NCAAF"], ["FanDuel", "DraftKings", "BetMGM"], 5) #for testing
-    print(data)
+    pprint(data)
