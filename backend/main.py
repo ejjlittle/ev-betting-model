@@ -67,17 +67,14 @@ nbaData = nbaScraper.main(month, day, year)
 dailyData["DailyBets"], dailyProfit = nbaGrader.main(nbaData, dailyData["DailyBets"])
 dailyData["Profit"] = dailyProfit
 
-'''
-#update the MongoDB
-placedBets.update_one(
-        {"date": dateDay}, 
-        {
-            "$set": {
-                "DailyBets": dailyData["DailyBets"],
-                "Profit": str(dailyProfit) #store as str to preserve precision
-            }
+placedBets.update_many(
+    {"Date": dateDay},  # Filter by the date
+    {
+        "$set": {
+            "DailyBets": dailyData["DailyBets"],  # Update the DailyBets field
+            "Profit": str(dailyProfit)  # Add Profit field (store as str to preserve precision)
         }
-    )
-'''
+    }
+)
     
 print(dateDay, dailyProfit)
