@@ -2,7 +2,7 @@ import pytz
 from datetime import datetime
 from decimal import Decimal
 
-#--GENERAL CONSTANTS--#
+#--CONSTANTS--#
 EST = pytz.timezone("US/Eastern")
 FORMAT = "%m/%d/%Y %H:%M:%S"
 TWOPLACES = Decimal(10) ** -2

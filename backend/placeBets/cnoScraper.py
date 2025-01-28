@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import constants
+import shared.constants as constants
 from pprint import pprint
 
 #--PARSE HTML INTO DATA--#

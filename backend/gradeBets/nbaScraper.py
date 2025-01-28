@@ -1,5 +1,5 @@
 import requests
-import constants
+import shared.constants as constants
 
 #--UNPACK RAW DATA TO DICTIONARY--#
 def parseData(content):

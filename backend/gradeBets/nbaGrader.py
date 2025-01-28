@@ -1,5 +1,5 @@
 from decimal import Decimal
-from constants import PLAYER_NAMES
+from shared.constants import PLAYER_NAMES
 
 TWOPLACES = Decimal(10) ** -2
 
