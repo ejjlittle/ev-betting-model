@@ -21,9 +21,10 @@ def parseData(content):
     return data
 
 
-def main(month, day, year):
+def main(date):
   #get response from NBA get request
-  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + month + "%2F" + day + "%2F" + year + "&DateTo=" + month + "%2F" + day + "%2F" + year + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+  date = date.split('/')
+  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&DateTo=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
   response = requests.get(url, headers=constants.NBA_HEADERS,)
 
   #check requests connection

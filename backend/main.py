@@ -25,17 +25,19 @@ placedBets = db["placed-bets"]
 
 #do all of this every 5 minutes: updating the website with each new bet placed
 now = datetime.now()
-dateDay = datetime.strftime(now, "%m/%d/%Y")
+date = datetime.strftime(now, "%m/%d/%Y")
 
-dailyData = placedBets.find_one({"Date": dateDay})
+dailyData = placedBets.find_one({"Date": date})
 
 #create daily dict if doesn't exist
 if not dailyData:
     dailyData = {
         "DailyBets": {},
-        "Profit": '0.00',
-        "NumBets":0,
-        "AmountWagered": '0.00'
+        "Profit": '0',
+        "AmountWagered": '0',
+        "NumBets": 0,
+        "NumWon": 0,
+        "NumLost": 0
     }
 
 #scrape betting data and place accepted bets, updating num bets and amount wagered
@@ -47,12 +49,15 @@ dailyData["AmountWagered"] += amountWagered
 
 #update the MongoDB
 placedBets.update_one(
-    {"Date": dateDay}, 
+    {"Date": date}, 
     {
         "$set": {
-            "NumBets": dailyData["NumBets"],
+            "DailyBets": {**dailyData["DailyBets"], **newBets}, #merge new bets into dictionary
             "AmountWagered": str(dailyData["AmountWagered"]), #store as str to preserve precision
-            "DailyBets": {**dailyData["DailyBets"], **newBets} #merge new bets into dictionary
+            "Profit": dailyData["Profit"],
+            "NumBets": dailyData["NumBets"],
+            "NumWon": dailyData["NumWon"],
+            "NumLost": dailyData["NumLost"]
         }
     },
     upsert=True #insert if the document doesn't exist
@@ -60,24 +65,23 @@ placedBets.update_one(
 
 
 #do this at the end of every day (need to make sure this is from yesterday)
-month = now.strftime("%m")
-day = now.strftime("%d")
-year = now.strftime("%y")
-
-nbaData = nbaScraper.main(month, day, year)
+nbaData = nbaScraper.main(date)
     
 #calculate daily profit and profit per bet
-dailyData["DailyBets"], dailyProfit = nbaGrader.main(nbaData, dailyData["DailyBets"])
-dailyData["Profit"] = dailyProfit
+dailyData["DailyBets"], dailyProfit, numWon, numLost = nbaGrader.main(nbaData, dailyData["DailyBets"])
 
+'''
 placedBets.update_many(
-    {"Date": dateDay},  # Filter by the date
+    {"Date": date},
     {
         "$set": {
-            "DailyBets": dailyData["DailyBets"],  # Update the DailyBets field
-            "Profit": str(dailyProfit)  # Add Profit field (store as str to preserve precision)
+            "DailyBets": dailyData["DailyBets"],
+            "Profit": str(dailyProfit),  #store as str to preserve precision
+            "NumWon": numWon,
+            "NumLost": numLost
         }
     }
 )
+'''
     
-print(dateDay, dailyProfit)
+print(date, dailyProfit)

@@ -1,3 +1,8 @@
+#--NBA PLAYER ALTERNATIVE NAMES--#
+PLAYER_NAMES = {
+    "Carlton Carrington": "Bub Carrington"
+}
+
 #--CNO POST REQUEST CONSTANTS--#
 CNO_URL = "https://crazyninjaodds.com/site/tools/positive-ev.aspx"
 CNO_HEADERS = {
