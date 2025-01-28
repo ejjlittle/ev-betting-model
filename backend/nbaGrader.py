@@ -12,7 +12,7 @@ def americanDecimal(odds):
 
 #--GET THE PLAYER STATLINE BASED ON BET NAME--#
 def getStatline(player, market, data):
-    if not player in data or data[player]["Minutes"] == 0:
+    if not player in data:
         return
     
     total = Decimal(0)
@@ -33,7 +33,7 @@ def main(data, dailyBets):
     for player, bet in dailyBets.items():
         statline = getStatline(player, bet["Market"], data)
 
-        if not statline or data["Minutes"] == 0: #no data or player did not play (bet voided)
+        if not statline or data[player]["Minutes"] == 0: #no data or player did not play (bet voided)
             continue
 
         line = float(bet["BetName"].split()[1])

@@ -23,7 +23,7 @@ def parseData(content):
 
 def main(month, day, year):
   #get response from NBA get request
-  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + month + "%2F" + day + "%2F" + year + "&DateTo=01%2F26%2F25&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + month + "%2F" + day + "%2F" + year + "&DateTo=" + month + "%2F" + day + "%2F" + year + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
   response = requests.get(url, headers=constants.NBA_HEADERS,)
 
   #check requests connection
@@ -34,5 +34,5 @@ def main(month, day, year):
   return data
 
 if __name__ == "__main__":
-    data = main('01', '26', '25') #for testing
+    data = main('01', '27', '25') #for testing
     print(data)

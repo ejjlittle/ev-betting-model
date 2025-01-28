@@ -59,7 +59,8 @@ placedBets.update_one(
 #do this at the end of every day (need to make sure this is from yesterday)
 month = now.strftime("%m")
 day = now.strftime("%d")
-year = now.strftime("%Y")
+year = now.strftime("%y")
+
 nbaData = nbaScraper.main(month, day, year)
     
 #calculate daily profit and profit per bet
