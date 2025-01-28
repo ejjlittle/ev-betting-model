@@ -1,6 +1,8 @@
 from pymongo.mongo_client import MongoClient
 from datetime import datetime
 from decimal import Decimal
+from dotenv import load_dotenv
+import os
 import model
 import nbaGrader
 import cnoScraper
@@ -15,7 +17,8 @@ MINIMUM_BOOK_COUNT = 5
 UNIT_SIZE = 50
 
 #--MONGO DB--#
-uri = "mongodb+srv://elittle2:IGnt12YWFH3tYdam@bets-cluster.beqkw.mongodb.net/?retryWrites=true&w=majority&appName=bets-cluster"
+load_dotenv()
+uri = os.environ.get("MONGO_URI")
 client = MongoClient(uri)
 db = client["betting-data"]
 placedBets = db["placed-bets"]
