@@ -5,12 +5,15 @@ from shared.db import setup
 from datetime import datetime
 import placeBets.cnoScraper as cnoScraper
 import placeBets.model as model
+import pytz
 
 #--PLACE BETS BASED ON MODEL AND UPDATE DB--#
 def placeBets(placedBets):#do all of this every 5 minutes: updating the website with each new bet placed
     now = datetime.now()
-    date = datetime.strftime(now, "%m/%d/%Y")
-
+    est = pytz.timezone('US/Eastern')
+    est_now = now.astimezone(est)
+    date = datetime.strftime(est_now, "%m/%d/%Y")
+    
     placedBets = setup()
     dailyData = placedBets.find_one({"Date": date})
 

@@ -3,11 +3,14 @@ from shared.db import setup
 from gradeBets.nbaGrader import main as calcBets
 from gradeBets.nbaScraper import main as scrapeNba
 from datetime import datetime
+import pytz
 
 #--GRADE ALL BETS FOR THE CURRENT DATE--#
 def gradeBets(placedBets, date):#do this at the end of every day (need to make sure this is from yesterday)
     now = datetime.now()
-    date = date or datetime.strftime(now, "%m/%d/%Y")
+    est = pytz.timezone('US/Eastern')
+    est_now = now.astimezone(est)
+    date = date or datetime.strftime(est_now, "%m/%d/%Y")
 
     dailyData = placedBets.find_one({"Date": date})
     nbaData = scrapeNba(date)
