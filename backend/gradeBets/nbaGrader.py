@@ -57,6 +57,5 @@ def main(data, dailyBets):
         bet["Profit"] = profit.quantize(TWOPLACES)
         dailyProfit += bet["Profit"]
         bet["Profit"] = str(bet["Profit"]) #store as str to preserve precision
-        print(player, bet["Profit"])
 
     return dailyBets, dailyProfit, numWon, numLost

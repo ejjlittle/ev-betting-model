@@ -8,12 +8,12 @@ import placeBets.model as model
 import pytz
 
 #--PLACE BETS BASED ON MODEL AND UPDATE DB--#
-def placeBets(placedBets):#do all of this every 5 minutes: updating the website with each new bet placed
+def placeBets(placedBets):
     now = datetime.now()
     est = pytz.timezone('US/Eastern')
-    est_now = now.astimezone(est)
-    date = datetime.strftime(est_now, "%m/%d/%Y")
-    
+    estNow = now.astimezone(est)
+    date = datetime.strftime(estNow, "%m/%d/%Y")
+
     placedBets = setup()
     dailyData = placedBets.find_one({"Date": date})
 
@@ -30,11 +30,11 @@ def placeBets(placedBets):#do all of this every 5 minutes: updating the website 
 
     #scrape betting data and place accepted bets, updating db
     cnoData = cnoScraper.main(MINIMUM_EV_PERCENTAGE, MAXIMUM_EV_PERCENTAGE, LEAGUES, BOOKS, MINIMUM_BOOK_COUNT)
-    newBets, amountWagered = model.main(cnoData, UNIT_SIZE, dailyData["DailyBets"], now)
+    newBets, amountWagered = model.main(cnoData, UNIT_SIZE, dailyData["DailyBets"], estNow)
     dailyData["NumBets"] += len(newBets)
     dailyData["AmountWagered"] = Decimal(dailyData["AmountWagered"]) #convert from str
     dailyData["AmountWagered"] += amountWagered
-    print(newBets)
+
     #update the MongoDB
     placedBets.update_one(
         {"Date": date}, 
@@ -50,7 +50,9 @@ def placeBets(placedBets):#do all of this every 5 minutes: updating the website 
         },
         upsert=True #insert if the document doesn't exist
     )
+    return newBets
 
+#--RUN EVERY MINUTE VIA CLOUDWATCH ON AWS LAMBDA--#
 def lambdaHandler(event, context):
     placedBets = setup()
     placeBets(placedBets)
@@ -59,6 +61,8 @@ def lambdaHandler(event, context):
         'body': json.dumps({'message': 'Bets placed successfully'})
     }
 
+
 if __name__ == "__main__":
     placedBets = setup()
-    placeBets(placedBets)
+    newBets = placeBets(placedBets)
+    print(newBets) #for dev

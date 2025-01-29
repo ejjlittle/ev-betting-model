@@ -49,7 +49,6 @@ def filterData(data, minEv, maxEv, leagues, books, minBooks):
     return data
 
 
-
 def main(minEv, maxEv, leagues, books, minBooks):
     #get html response from CNO post request
     response = requests.post(constants.CNO_URL, 
@@ -65,6 +64,7 @@ def main(minEv, maxEv, leagues, books, minBooks):
     data = filterData(data, minEv, maxEv, leagues, books, minBooks)
     return data
 
+
 if __name__ == "__main__":
-    data = main(7, 40, ["NBA", "NHL", "NFL", "NCAAB", "NCAAF"], ["FanDuel", "DraftKings", "BetMGM"], 5) #for testing
-    pprint(data)
+    data = main(7, 40, ["NBA", "NHL", "NFL", "NCAAB", "NCAAF"], ["FanDuel", "DraftKings", "BetMGM"], 5)
+    pprint(data) #for dev

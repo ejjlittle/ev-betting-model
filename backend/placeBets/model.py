@@ -39,6 +39,7 @@ def formatTime(time):
     estTime = t.astimezone(EST)
     return estTime
 
+
 def main(data, unitSize, dailyBets, time):
     amountWagered = 0
     newBets = {}

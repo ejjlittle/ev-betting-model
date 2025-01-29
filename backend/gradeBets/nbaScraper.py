@@ -1,5 +1,7 @@
 import requests
 import shared.constants as constants
+from dotenv import load_dotenv
+import os
 
 #--UNPACK RAW DATA TO DICTIONARY--#
 def parseData(content):
@@ -22,18 +24,29 @@ def parseData(content):
 
 
 def main(date):
-  #get response from NBA get request
-  date = date.split('/')
-  url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&DateTo=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
-  response = requests.get(url, headers=constants.NBA_HEADERS,)
+    #load proxies (unnecessary on local device)
+    '''
+    load_dotenv(dotenv_path='../.env')
 
-  #check requests connection
-  if response.status_code != 200:
-      exit("Error fetching website data")
+    proxies = {
+        "http": os.getenv("PROXY_HTTP"),
+        "https": os.getenv("PROXY_HTTPS")
+    }
+    '''
 
-  data = parseData(response.json())
-  return data
+    #get response from NBA get request
+    date = date.split('/')
+    url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&DateTo=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+    response = requests.get(url, headers=constants.NBA_HEADERS)
+
+    #check requests connection
+    if response.status_code != 200:
+        exit("Error fetching website data")
+
+    data = parseData(response.json())
+    return data
+
 
 if __name__ == "__main__":
-    data = main('01', '27', '25') #for testing
-    print(data)
+    data = main("1/29/25") 
+    print(data) #for dev
