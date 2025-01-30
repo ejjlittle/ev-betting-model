@@ -39,9 +39,11 @@ def main(data, dailyBets):
         if not statline and player in PLAYER_NAMES: #try again with alternative name
             altPlayer = PLAYER_NAMES[player]
             statline = getStatline(altPlayer, bet["Market"], data)
-            if not statline or data[altPlayer]["Minutes"] == 0: #no data or player did not play (bet voided)
+            if statline == None or data[altPlayer]["Minutes"] == 0: #no data or player did not play (bet voided)
+                print(player, "VOIDED")
                 continue
-        elif not statline or data[player]["Minutes"] == 0: #no data or player did not play (bet voided)
+        elif statline == None or data[player]["Minutes"] == 0: #no data or player did not play (bet voided)
+            print(player, "VOIDED")
             continue
             
         line = float(bet["BetName"].split()[1])
@@ -54,8 +56,10 @@ def main(data, dailyBets):
         else: #bet lost
             profit = Decimal(bet["Wager"]) * -1
             numLost += 1
+
         bet["Profit"] = profit.quantize(TWOPLACES)
         dailyProfit += bet["Profit"]
         bet["Profit"] = str(bet["Profit"]) #store as str to preserve precision
+        print(player, bet["Profit"])
 
     return dailyBets, dailyProfit, numWon, numLost

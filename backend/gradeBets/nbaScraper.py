@@ -2,6 +2,7 @@ import requests
 import shared.constants as constants
 from dotenv import load_dotenv
 import os
+import unidecode
 
 #--UNPACK RAW DATA TO DICTIONARY--#
 def parseData(content):
@@ -18,7 +19,7 @@ def parseData(content):
             "Turnovers": entry[26],
             "Minutes": entry[10]
         }
-        playerName = entry[2]
+        playerName = unidecode.unidecode(entry[2]) #normalize names
         data[playerName] = statline
     return data
 
