@@ -9,10 +9,8 @@ import pytz
 
 #--PLACE BETS BASED ON MODEL AND UPDATE DB--#
 def placeBets(placedBets):
-    now = datetime.now()
-    est = pytz.timezone('US/Eastern')
-    estNow = now.astimezone(est)
-    date = datetime.strftime(estNow, "%m/%d/%Y")
+    now = datetime.now(pytz.timezone('US/Eastern'))
+    date = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
     placedBets = setup()
     dailyData = placedBets.find_one({"Date": date})
@@ -30,7 +28,7 @@ def placeBets(placedBets):
 
     #scrape betting data and place accepted bets, updating db
     cnoData = cnoScraper.main(MINIMUM_EV_PERCENTAGE, MAXIMUM_EV_PERCENTAGE, LEAGUES, BOOKS, MINIMUM_BOOK_COUNT)
-    newBets, amountWagered = model.main(cnoData, UNIT_SIZE, dailyData["DailyBets"], estNow)
+    newBets, amountWagered = model.main(cnoData, UNIT_SIZE, dailyData["DailyBets"], now)
     dailyData["NumBets"] += len(newBets)
     dailyData["AmountWagered"] = Decimal(dailyData["AmountWagered"]) #convert from str
     dailyData["AmountWagered"] += amountWagered

@@ -5,20 +5,22 @@ from pprint import pprint
 
 #--GET DAILY STATS FOR LAST 365 DAYS--#
 def getStats(placedBets):
-    today = datetime.today()
-    startDate = today - timedelta(days=365)
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    startDate = today - timedelta(days=366)
+    
+    #query MongoDB for all records in the last 365 days
+    results = placedBets.find({
+        "Date": {
+            "$gte": startDate,
+            "$lt": today #exclude today
+        }
+    })
+    
     yearlyStats = {}
 
-    yearlyDays = [today - timedelta(days=i) for i in range(1, 366)] #exclude today
-    yearlyStats = {}
-
-    for dateObj in yearlyDays:
-        date = datetime.strftime(dateObj, "%m/%d/%Y")
-        dailyData = placedBets.find_one({"Date": date})
-
-        if not dailyData: #account for days before data collection
-            continue
-
+    # Iterate over the results to build the stats dictionary
+    for dailyData in results:
+        date = dailyData["Date"].date()  # Get the date part (year, month, day)
         dailyStats = {
             "Profit": dailyData.get("Profit", 0),
             "AmountWagered": dailyData.get("AmountWagered", 0),
@@ -27,7 +29,8 @@ def getStats(placedBets):
             "NumLost": dailyData.get("NumLost", 0)
         }
 
-        yearlyStats[date] = dailyStats
+        # Add the stats to the yearlyStats dictionary
+        yearlyStats[str(date)] = dailyStats
 
     return yearlyStats
 

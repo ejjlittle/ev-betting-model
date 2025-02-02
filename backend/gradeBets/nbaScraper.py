@@ -1,6 +1,7 @@
 import requests
 import shared.constants as constants
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 import unidecode
 
@@ -36,8 +37,7 @@ def main(date):
     '''
 
     #get response from NBA get request
-    date = date.split('/')
-    url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&DateTo=" + date[0] + "%2F" + date[1] + "%2F" + date[2][-2:] + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+    url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&DateTo=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
     response = requests.get(url, headers=constants.NBA_HEADERS)
 
     #check requests connection
@@ -49,5 +49,5 @@ def main(date):
 
 
 if __name__ == "__main__":
-    data = main("1/29/25") 
+    data = main(datetime.strptime("01/27/2025", "%m/%d/%Y")) 
     print(data) #for dev

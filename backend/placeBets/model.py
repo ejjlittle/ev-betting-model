@@ -40,13 +40,13 @@ def formatTime(time):
     return estTime
 
 
-def main(data, unitSize, dailyBets, time):
+def main(data, unitSize, dailyBets, now):
     amountWagered = 0
     newBets = {}
     for entry in data:
         date = formatTime(entry["Date"])
         #only place bets within the same day
-        if not (date.year == time.year and date.month == time.month and date.day == time.day):
+        if not (date.year == now.year and date.month == now.month and date.day == now.day):
             continue
 
         #only player props
@@ -70,7 +70,7 @@ def main(data, unitSize, dailyBets, time):
             "EV": entry["EV"], #expected value as percentage
             "Date": datetime.strftime(date, "%m/%d/%Y"), #eg. 1/25/2025
             "GameTime": datetime.strftime(date, "%I:%M %p"), #eg. 7:30 pm
-            "TimePlaced": datetime.strftime(time, "%I:%M %p"), #eg. 1:46 pm
+            "TimePlaced": datetime.strftime(now, "%I:%M %p"), #eg. 1:46 pm
             "Sport": entry["Sport"], #eg. Basketball
             "League": entry["League"], #eg. NBA
             "Game": entry["Game"], #eg. Milwaukee Bucks @ Golden State Warriors
