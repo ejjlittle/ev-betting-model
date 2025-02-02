@@ -14,6 +14,15 @@ def americanDecimal(odds):
 #--GET THE PLAYER STATLINE BASED ON BET NAME--#
 def getStatline(player, market, data):
     if not player in data:
+        #check for alternative player names
+        if player in PLAYER_NAMES and PLAYER_NAMES[player] in data:
+            player = PLAYER_NAMES[player]
+        elif player.replace(".", "") in data:
+            player = player.replace(".", "")
+        else:
+            return
+    
+    if data[player]["Minutes"] == 0:
         return
     
     total = Decimal(0)
@@ -36,13 +45,7 @@ def main(data, dailyBets):
     for player, bet in dailyBets.items():
         statline = getStatline(player, bet["Market"], data)
 
-        if not statline and player in PLAYER_NAMES: #try again with alternative name
-            altPlayer = PLAYER_NAMES[player]
-            statline = getStatline(altPlayer, bet["Market"], data)
-            if statline == None or data[altPlayer]["Minutes"] == 0: #no data or player did not play (bet voided)
-                print(player, "VOIDED")
-                continue
-        elif statline == None or data[player]["Minutes"] == 0: #no data or player did not play (bet voided)
+        if statline == None:  #no data or player did not play (bet voided)
             print(player, "VOIDED")
             continue
             

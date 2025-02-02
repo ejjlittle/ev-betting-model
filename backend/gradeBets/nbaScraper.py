@@ -20,7 +20,7 @@ def parseData(content):
             "Turnovers": entry[26],
             "Minutes": entry[10]
         }
-        playerName = unidecode.unidecode(entry[2]) #normalize names
+        playerName = unidecode.unidecode(entry[2]).replace(".", "") #normalize names
         data[playerName] = statline
     return data
 
@@ -38,7 +38,9 @@ def main(date):
 
     #get response from NBA get request
     url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&DateTo=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
+    #response = requests.get(url, headers=constants.NBA_HEADERS, proxies=proxies, verify="/opt/certificates/BrightData SSL certificate (port 33335).crt")
     response = requests.get(url, headers=constants.NBA_HEADERS)
+    
 
     #check requests connection
     if response.status_code != 200:

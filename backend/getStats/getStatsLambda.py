@@ -18,9 +18,9 @@ def getStats(placedBets):
     
     yearlyStats = {}
 
-    # Iterate over the results to build the stats dictionary
+    #build the stats dictionary
     for dailyData in results:
-        date = dailyData["Date"].date()  # Get the date part (year, month, day)
+        date = dailyData["Date"].date() #only need (year, month, day)
         dailyStats = {
             "Profit": dailyData.get("Profit", 0),
             "AmountWagered": dailyData.get("AmountWagered", 0),
@@ -29,7 +29,6 @@ def getStats(placedBets):
             "NumLost": dailyData.get("NumLost", 0)
         }
 
-        # Add the stats to the yearlyStats dictionary
         yearlyStats[str(date)] = dailyStats
 
     return yearlyStats

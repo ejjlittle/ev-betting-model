@@ -7,9 +7,13 @@ import pytz
 
 #--GRADE ALL BETS FOR THE CURRENT DATE--#
 def gradeBets(placedBets, date):
-    now = datetime.now(pytz.timezone('US/Eastern'))
-    previousDay = now.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
-    date = date or previousDay
+    est = pytz.timezone('US/Eastern')
+    
+    #make sure date is in EST
+    if date.tzinfo is None:
+        date = est.localize(date)
+    
+    date = date.replace(hour=0, minute=0, second=0, microsecond=0)
 
     dailyData = placedBets.find_one({"Date": date})
     nbaData = scrapeNba(date)
@@ -35,7 +39,11 @@ def gradeBets(placedBets, date):
 def lambdaHandler(event, context):
     placedBets = setup()
     
-    #None = default to yesterday
+    est = pytz.timezone('US/Eastern')
+
+    #default date to yesterday at midnight EST
+    now = datetime.now(est)
+    previousDay = now.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
     date = event.get('queryStringParameters', {}).get('date', None)
 
     #try to convert date into a datetime object
@@ -47,6 +55,8 @@ def lambdaHandler(event, context):
                 'statusCode': 400, #bad request
                 'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})
             }
+    else:
+        date = previousDay
         
     gradeBets(placedBets, date)
     return {
@@ -57,5 +67,5 @@ def lambdaHandler(event, context):
 
 if __name__ == "__main__":
     placedBets = setup()
-    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("01/30/2025", "%m/%d/%Y"))
+    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("02/01/2025", "%m/%d/%Y"))
     print(date, dailyProfit, numWon, numLost) #for dev
