@@ -38,7 +38,7 @@ def gradeBets(placedBets, date):
 #--RUN 5AM EST EVERYDAY VIA CLOUDWATCH ON AWS LAMBDA--#
 def lambdaHandler(event, context):
     placedBets = setup()
-    
+
     est = pytz.timezone('US/Eastern')
 
     #default date to yesterday at midnight EST
@@ -51,8 +51,8 @@ def lambdaHandler(event, context):
         try:
             date = datetime.strptime(date, "%m/%d/%Y")
             est = pytz.timezone('US/Eastern')
-            date = est.localize(date)
-        except ValueError:
+            date = est.localize(date) #convert to est
+        except (TypeError, ValueError, AttributeError) as e:
             return {
                 'statusCode': 400, #bad request
                 'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})

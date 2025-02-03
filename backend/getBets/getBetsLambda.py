@@ -8,18 +8,16 @@ def lambdaHandler(event, context):
     placedBets = setup()
     
     date = event.get('queryStringParameters', {}).get('date', None)
-
     #try to convert date into a datetime object
-    if date:
-        try:
-            date = datetime.strptime(date, "%m/%d/%Y")
-            est = pytz.timezone('US/Eastern')
-            date = est.localize(date) #convert to est
-        except ValueError:
-            return {
-                'statusCode': 400, #bad request
-                'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})
-            }
+    try:
+        date = datetime.strptime(date, "%m/%d/%Y")
+        est = pytz.timezone('US/Eastern')
+        date = est.localize(date) #convert to est
+    except (TypeError, ValueError, AttributeError) as e:
+        return {
+            'statusCode': 400, #bad request
+            'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})
+        }
         
     dailyData = placedBets.find_one({"Date": date})
     if not dailyData:
