@@ -50,6 +50,8 @@ def lambdaHandler(event, context):
     if date:
         try:
             date = datetime.strptime(date, "%m/%d/%Y")
+            est = pytz.timezone('US/Eastern')
+            date = est.localize(date)
         except ValueError:
             return {
                 'statusCode': 400, #bad request
