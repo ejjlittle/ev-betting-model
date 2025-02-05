@@ -20,7 +20,7 @@ def getStats(placedBets):
 
     #build the stats dictionary
     for dailyData in results:
-        date = dailyData["Date"].date() #only need (year, month, day)
+        date = dailyData["Date"].date() #only need (YYYY-MM-DD)
         dailyStats = {
             "Profit": dailyData.get("Profit", 0),
             "AmountWagered": dailyData.get("AmountWagered", 0),
