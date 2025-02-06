@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 
 def setup():
-    load_dotenv(dotenv_path='../.env')
+    load_dotenv(dotenv_path='.env')
     uri = os.getenv("MONGO_URI")
     if not uri:
         raise ValueError("MONGO_URI is not set or is invalid in the .env file")
