@@ -109,77 +109,77 @@ const chartData = [
     { date: "2024-06-30", desktop: 446, mobile: 400 },
 ]
 
-export default function ProfitCard(){
+export default function ProfitCard() {
     const [timeRange, setTimeRange] = React.useState("1d")
-        const filteredData = chartData.filter((item) => {
-            const date = new Date(item.date)
-            const referenceDate = new Date("2024-06-30")
-            let daysToSubtract = 1
-            if (timeRange === "7d") {
-                daysToSubtract = 7
-            } else if (timeRange === "30d") {
-                daysToSubtract = 30
-            } else if (timeRange === "90d") {
-                daysToSubtract = 90
-            } else if (timeRange === "365d") {
-                daysToSubtract = 365
-            }
-            const startDate = new Date(referenceDate)
-            startDate.setDate(startDate.getDate() - daysToSubtract)
-            return date >= startDate
-      })
+    const filteredData = chartData.filter((item) => {
+        const date = new Date(item.date)
+        const referenceDate = new Date("2024-06-30")
+        let daysToSubtract = 1
+        if (timeRange === "7d") {
+            daysToSubtract = 7
+        } else if (timeRange === "30d") {
+            daysToSubtract = 30
+        } else if (timeRange === "90d") {
+            daysToSubtract = 90
+        } else if (timeRange === "365d") {
+            daysToSubtract = 365
+        }
+        const startDate = new Date(referenceDate)
+        startDate.setDate(startDate.getDate() - daysToSubtract)
+        return date >= startDate
+    })
 
-    return(
-    <Card className="w-1/3">
-        <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
-            <div className="grid flex-1 gap-1 text-center sm:text-left">
-                <CardTitle>Profit</CardTitle>
-                <CardDescription>
-                Displays the profit over a period of time
-                </CardDescription>
-            </div>
-        <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger
-                className="w-[160px] rounded-xl sm:ml-auto bg-background"
-                aria-label="Select a value"
-            >
-            <SelectValue placeholder="yesterday" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl border-border">
-                <SelectItem value="1d" className="rounded-lg">
-                Yesterday
-                </SelectItem>
-                <SelectItem value="7d" className="rounded-lg">
-                Last 7 days
-                </SelectItem>
-                <SelectItem value="30d" className="rounded-lg">
-                Last 30 days
-                </SelectItem>
-                <SelectItem value="90d" className="rounded-lg">
-                Last 3 months
-                </SelectItem>
-                <SelectItem value="365d" className="rounded-lg">
-                Last 12 months
-                </SelectItem>
-            </SelectContent>
-        </Select>
-        </CardHeader>
-        <CardContent>
-        <div className="flex flex-row w-full justify-between pt-10">
-            <div className="flex flex-col justify-end">
-                <p className="text-7xl font-bold text-positive">+$104.56</p>
-            </div>
-            <div className="flex flex-col justify-end">
-                <p className="text-xl font-bold text-positive">+2.06u</p>
-                <p className="text-xl font-bold text-positive">+23.2% ROI</p>
-            </div>
-        </div>
-        </CardContent>
-        <CardFooter>
-            <div className="flex flex-row justify-end w-full">
-                <p className="text-right font-light text-lg text-muted-foreground">(14-10-2) across 26 bets</p>
-            </div>
-        </CardFooter>
-    </Card>
+    return (
+        <Card className="w-1/3">
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
+                <div className="grid flex-1 gap-1 text-center sm:text-left">
+                    <CardTitle>Profit</CardTitle>
+                    <CardDescription>
+                        Displays the profit over a period of time
+                    </CardDescription>
+                </div>
+                <Select value={timeRange} onValueChange={setTimeRange}>
+                    <SelectTrigger
+                        className="w-[160px] rounded-xl sm:ml-auto bg-background"
+                        aria-label="Select a value"
+                    >
+                        <SelectValue placeholder="yesterday" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-border bg-background">
+                        <SelectItem value="1d" className="rounded-xl">
+                            Yesterday
+                        </SelectItem>
+                        <SelectItem value="7d" className="rounded-xl">
+                            Last 7 days
+                        </SelectItem>
+                        <SelectItem value="30d" className="rounded-xl">
+                            Last 30 days
+                        </SelectItem>
+                        <SelectItem value="90d" className="rounded-xl">
+                            Last 3 months
+                        </SelectItem>
+                        <SelectItem value="365d" className="rounded-xl">
+                            Last 12 months
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-row w-full justify-between pt-10">
+                    <div className="flex flex-col justify-end">
+                        <p className="text-7xl font-bold text-positive">+$104.56</p>
+                    </div>
+                    <div className="flex flex-col justify-end">
+                        <p className="text-xl font-bold text-positive">+2.06u</p>
+                        <p className="text-xl font-bold text-positive">+23.2% ROI</p>
+                    </div>
+                </div>
+            </CardContent>
+            <CardFooter>
+                <div className="flex flex-row justify-end w-full">
+                    <p className="text-right font-light text-lg text-muted-foreground">(14-10-2) across 26 bets</p>
+                </div>
+            </CardFooter>
+        </Card>
     )
 }
