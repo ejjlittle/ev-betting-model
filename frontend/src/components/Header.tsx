@@ -12,7 +12,7 @@ export default function Header() {
         positive expected value.
       </p>
       <div className="flex items-center space-x-0.5">
-        <a className="text-primary text-sm font-semibold hover:underline" href="https://github.com/ejjlittle/ev-betting-model">
+        <a className="text-primary text-sm font-semibold hover:underline" href="https://github.com/ejjlittle/ev-betting-model" target="_blank" rel="noopener noreferrer">
           Check it out on GitHub
         </a>
         <ArrowRight className="text-primary w-4 h-4" />

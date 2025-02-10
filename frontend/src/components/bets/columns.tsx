@@ -20,16 +20,20 @@ export type Bet = {
 export const columns: ColumnDef<Bet>[] = [
     {
         accessorKey: "player",
-        header: "Player",
+        header: () => (
+            <div className="text-center">Player</div>
+        ),
         cell: ({ row }) => (
-            <div className="font-bold">
+            <div className="font-bold text-center">
                 {row.getValue("player")}
             </div>
         )
     },
     {
         accessorKey: "bet",
-        header: "Bet",
+        header: () => (
+            <div className="text-center">Bet</div>
+        ),
         cell: ({ row }) => {
             const betText: string = row.original.bet;
       
@@ -50,19 +54,28 @@ export const columns: ColumnDef<Bet>[] = [
     },
     {
         accessorKey: "game",
-        header: "Game",
+        header: () => (
+            <div className="text-center">Game</div>
+        ),
         cell: ({ getValue }) => {
             const game = getValue<string>().split("@");
             return (
-              <span>
-                {game[0]} <br /> <span className="font-light">@</span>{game[1]}
-              </span>
+                <div className="text-center">
+                    {game[0]}
+                    <span className="text-muted-foreground">@</span> <br />
+                    {game[1]}
+                </div>
             );
-          }
+        }
     },
     {
         accessorKey: "book",
-        header: "Book",
+        header: () => (
+            <div className="text-center">Book</div>
+        ),
+        cell: ({ row }) => (
+            <div className="text-center">{row.getValue("book")}</div>
+        ),
     },
     {
         accessorKey: "timePlaced",
@@ -71,12 +84,16 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 Time placed
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
+          cell: ({ row }) => (
+            <div className="text-center">{row.getValue("timePlaced")}</div>
+        ),
     },
     {
         accessorKey: "bookCount",
@@ -85,12 +102,16 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
-                Books compared
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                Books
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
+          cell: ({ row }) => (
+            <div className="text-center">{row.getValue("bookCount")}</div>
+        ),
     },
     {
         accessorKey: "wager",
@@ -99,9 +120,10 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 Wager
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
@@ -113,7 +135,7 @@ export const columns: ColumnDef<Bet>[] = [
                 currency: "USD",
             }).format(amount)
 
-            return <div>{formatted}</div>
+            return <div className="text-center">{formatted}</div>
         },
     },
     {
@@ -123,15 +145,16 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 Odds
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
         cell: ({ row }) => {
             const odds = row.original.odds;
-            return odds > 0 ? `+${odds}` : `${odds}`; //prepend + for positive odds
+            return <div className="text-center">{odds > 0 ? `+${odds}` : `${odds}`}</div>; //prepend + for positive odds
           },
     },
     {
@@ -141,15 +164,16 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 Fair odds
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button >
             )
           },
         cell: ({ row }) => {
             const fairOdds = row.original.fairOdds;
-            return fairOdds > 0 ? `+${fairOdds}` : `${fairOdds}`; //prepend + for positive odds
+            return <div className="text-center">{fairOdds > 0 ? `+${fairOdds}` : `${fairOdds}`}</div>; //prepend + for positive odds
           },
     },
     {
@@ -159,17 +183,16 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 EV%
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
           //append '%'
           cell: ({ row }) => (
-            <div className="font-bold">
-                {row.original.ev}%
-            </div>
+            <div className="font-bold text-center">{row.original.ev}%</div>
         )
     },
     {
@@ -179,9 +202,10 @@ export const columns: ColumnDef<Bet>[] = [
               <Button
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="flex items-center justify-center w-full rounded-xl"
               >
                 Profit
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="h-4 w-4" />
               </Button>
             )
           },
@@ -195,7 +219,7 @@ export const columns: ColumnDef<Bet>[] = [
 
             //add color for positive or negative
             return (
-                <div className={`font-bold ${
+                <div className={`text-center font-extrabold ${
                     amount > 0 ? "text-positive" : amount < 0 ? "text-negative" : "text-primary"
                 }`}>
                     {formatted}

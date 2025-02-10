@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import DataTablePagination from "./pagination"
 import * as React from "react"
 import {
     ColumnDef,
@@ -70,7 +70,6 @@ export function DataTable<TData, TValue>({
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -82,7 +81,7 @@ export function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    No results
                                 </TableCell>
                             </TableRow>
                         )}
@@ -90,24 +89,7 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                    className="rounded-xl"
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                    className="rounded-xl"
-                >
-                    Next
-                </Button>
+                <DataTablePagination table={table} />
             </div>
         </div>
     )
