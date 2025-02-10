@@ -107,20 +107,17 @@ const chartData = [
     { date: "2024-06-22", desktop: 317, mobile: 270 },
     { date: "2024-06-23", desktop: 480, mobile: 530 },
     { date: "2024-06-24", desktop: 132, mobile: 180 },
-    { date: "2024-06-25", desktop: 141, mobile: 190 },
+    { date: "2024-06-25", desktop: -741, mobile: 190 },
     { date: "2024-06-26", desktop: 434, mobile: 380 },
     { date: "2024-06-27", desktop: 448, mobile: 490 },
     { date: "2024-06-28", desktop: 149, mobile: 200 },
-    { date: "2024-06-29", desktop: 103, mobile: 160 },
+    { date: "2024-06-29", desktop: -503, mobile: 160 },
     { date: "2024-06-30", desktop: 446, mobile: 400 },
 ]
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
     desktop: {
-        label: "Desktop",
+        label: "Profit",
         color: "hsl(var(--positive))",
     },
 } satisfies ChartConfig
@@ -220,7 +217,8 @@ export default function ProfitChart() {
                                             day: "numeric",
                                         })
                                     }}
-                                    indicator="dot"
+                                    indicator="line"
+
                                 />
                             }
                         />

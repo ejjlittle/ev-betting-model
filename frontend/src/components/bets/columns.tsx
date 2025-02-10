@@ -6,6 +6,7 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { calcUnits } from "@/lib/utils"
 
 export type Bet = {
     id: string
@@ -191,8 +192,9 @@ export const columns: ColumnDef<Bet>[] = [
                 style: "currency",
                 currency: "USD",
             }).format(amount)
+            const units = calcUnits(amount)
 
-            return <div className="text-center">{formatted}</div>
+            return <div className="text-center">{formatted} ({units}u)</div>
         },
     },
     {
@@ -303,12 +305,13 @@ export const columns: ColumnDef<Bet>[] = [
                 style: "currency",
                 currency: "USD",
             }).format(amount)
+            const units = calcUnits(amount)
 
             //add color for positive or negative
             return (
-                <div className={`text-center font-extrabold ${amount > 0 ? "text-positive" : amount < 0 ? "text-negative" : "text-primary"
+                <div className={`text-center font-bold ${amount > 0 ? "text-positive" : amount < 0 ? "text-negative" : "text-primary"
                     }`}>
-                    {formatted}
+                    {formatted} <span className="font-normal">({units}u)</span>
                 </div>
             );
         },
