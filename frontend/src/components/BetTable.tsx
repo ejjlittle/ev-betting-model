@@ -377,7 +377,8 @@ export default function BetTable() {
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
                     <CardTitle>Bets Placed</CardTitle>
                     <CardDescription>
-                        Displays the bets placed by the model on any given day
+                        Displays the bets placed by the model on any given day <br/>
+                        Hover over each header for more info
                     </CardDescription>
                 </div>
                 <DatePicker />
