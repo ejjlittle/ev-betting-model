@@ -9,6 +9,10 @@ def htmlParse(content):
 
     data = [] #list of dicts
     htmlBody = soup.find("tbody")
+
+    if not htmlBody:
+        return data #return empty if no bets able to be scraped
+
     for entry in htmlBody.find_all("tr"):
         categories = entry.find_all("td")
         bet = {
