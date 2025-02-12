@@ -10,13 +10,13 @@ def lambdaHandler(event, context):
     date = event.get('queryStringParameters', {}).get('date', None)
     #try to convert date into a datetime object
     try:
-        date = datetime.strptime(date, "%m/%d/%Y")
+        date = datetime.strptime(date, "%Y-%m-%m")
         est = pytz.timezone('US/Eastern')
         date = est.localize(date) #convert to est
     except (TypeError, ValueError, AttributeError) as e:
         return {
             'statusCode': 400, #bad request
-            'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})
+            'body': json.dumps({'message': 'Invalid date format (YYYY-MM-DD)'})
         }
         
     dailyData = placedBets.find_one({"Date": date})

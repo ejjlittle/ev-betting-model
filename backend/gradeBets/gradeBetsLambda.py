@@ -49,13 +49,13 @@ def lambdaHandler(event, context):
     #try to convert date into a datetime object
     if date:
         try:
-            date = datetime.strptime(date, "%m/%d/%Y")
+            date = datetime.strptime(date, "%Y-%m-%d")
             est = pytz.timezone('US/Eastern')
             date = est.localize(date) #convert to est
         except (TypeError, ValueError, AttributeError) as e:
             return {
                 'statusCode': 400, #bad request
-                'body': json.dumps({'message': 'Invalid date format (MM/DD/YYYY)'})
+                'body': json.dumps({'message': 'Invalid date format (YYYY-MM-DD)'})
             }
     else:
         date = previousDay
@@ -69,5 +69,5 @@ def lambdaHandler(event, context):
 
 if __name__ == "__main__":
     placedBets = setup()
-    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("02/01/2025", "%m/%d/%Y"))
+    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("2025-02-11", "%Y-%m-%d"))
     print(date, dailyProfit, numWon, numLost) #for dev
