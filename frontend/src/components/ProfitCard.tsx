@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import fetchStats from "@/api/statsApi"
 import { Stats } from '@/lib/models';
+import Counter from './Counter';
 
 function getFilteredStats(stats: Stats[], timeRange: string) {
     //check for no stats
@@ -133,24 +134,19 @@ export default function ProfitCard() {
                 ) : (
                     <div>
                         <div className={`flex flex-row w-full justify-between pt-10 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
-                            <div className="flex flex-col justify-end">
-                                <p className="text-7xl font-bold">
-                                    {totalStats.profit >= 0
-                                        ? `+$${formatNumber(totalStats.profit)}`
-                                        : `-$${formatNumber(Math.abs(totalStats.profit))}`}
-                                </p>
-                            </div>
+                            <span className="text-7xl flex items-center font-bold">
+                                {totalStats.profit >= 0 ? "+$" : "-$"}
+                                <Counter value={Math.abs(totalStats.profit)} />
+                            </span>
                             <div className="flex flex-col justify-end text-xl font-bold">
-                                <p>
-                                    {totalStats.profit >= 0
-                                        ? `+${formatNumber(calcUnits(totalStats.profit))}u`
-                                        : `-${formatNumber(calcUnits(Math.abs(totalStats.profit)))}u`}
-                                </p>
-                                <p>
-                                    {totalStats.profit >= 0
-                                        ? `+${formatNumber(calcROI(totalStats.amountWagered, totalStats.profit))}% ROI`
-                                        : `-${formatNumber(calcROI(totalStats.amountWagered, Math.abs(totalStats.profit)))}% ROI`}
-                                </p>
+                                <span className="flex flex-row">
+                                    {totalStats.profit >= 0 ? "+" : "-"}
+                                    <Counter value={calcUnits(Math.abs(totalStats.profit))} />u
+                                </span>
+                                <span className="flex flex-row">
+                                    {totalStats.profit >= 0 ? "+" : "-"}
+                                    <Counter value={calcROI(totalStats.amountWagered, Math.abs(totalStats.profit))} />% ROI
+                                </span>
                             </div>
                         </div>
                         <div className="flex flex-row justify-end w-full pt-4">
