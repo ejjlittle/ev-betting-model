@@ -1,4 +1,4 @@
-import { DailyStats } from "@/lib/models";
+import { Stats } from "@/lib/models";
 const API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 //how data is stored in the json response
@@ -12,7 +12,7 @@ interface StatsByDate {
     };
 }
 
-export default async function fetchStats(): Promise<DailyStats[]> {
+export default async function fetchStats(): Promise<Stats[]> {
     const response = await fetch(`${API_URL}/api/stats`);
     console.log(API_URL);
 
@@ -23,9 +23,9 @@ export default async function fetchStats(): Promise<DailyStats[]> {
     const jsonResponse: StatsByDate = await response.json(); //convert response to StatsObjects json
 
     //map to array of DailyStats that include date as property (for easier data manipulation)
-    const statsArray: DailyStats[] = Object.keys(jsonResponse).map(date => {
+    const statsArray: Stats[] = Object.keys(jsonResponse).map(date => {
         const item = jsonResponse[date];
-        return new DailyStats(date, item.Profit, item.AmountWagered, item.NumBets, item.NumWon, item.NumLost);
+        return new Stats(date, item.Profit, item.AmountWagered, item.NumBets, item.NumWon, item.NumLost);
     });
     return statsArray;
 }

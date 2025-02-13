@@ -1,4 +1,4 @@
-export class DailyStats {
+export class Stats {
     date: string;
     profit: number;
     amountWagered: number;

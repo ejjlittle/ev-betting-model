@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { calcROI, calcUnits } from '@/lib/utils';
+import { calcROI, calcUnits, formatNumber } from '@/lib/utils';
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -16,7 +15,56 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import fetchStats from "@/api/statsApi"
-import { DailyStats } from '@/lib/models';
+import { Stats } from '@/lib/models';
+
+function getFilteredStats(stats: Stats[], timeRange: string) {
+    //check for no stats
+    if (!stats || stats.length === 0) {
+        return {
+            date: "Total",
+            profit: 0,
+            amountWagered: 0,
+            numBets: 0,
+            numWon: 0,
+            numLost: 0
+        };
+    }
+
+    const referenceDate = new Date() //today
+    referenceDate.setHours(0, 0, 0, 0); //normalize to midnight
+
+    const filteredData = stats.filter((item: Stats) => {
+        const date = new Date(item.date) //already normalize (only stored as day)
+
+        let daysToSubtract = 1
+        if (timeRange === "7d") {
+            daysToSubtract = 7
+        } else if (timeRange === "30d") {
+            daysToSubtract = 30
+        } else if (timeRange === "90d") {
+            daysToSubtract = 90
+        } else if (timeRange === "365d") {
+            daysToSubtract = 365
+        }
+        const startDate = new Date(referenceDate) //start from yesterday
+        startDate.setDate(startDate.getDate() - daysToSubtract - 1) //go back x days
+        return (date >= startDate) && (date != referenceDate) //exclude today because no profit
+    })
+
+    // Aggregate totals
+    return filteredData.reduce(
+        (totals, item) =>
+            new Stats(
+                "Total",
+                Math.round((totals.profit + item.profit) * 100) / 100,
+                Math.round((totals.amountWagered + item.amountWagered) * 100) / 100,
+                totals.numBets + item.numBets,
+                totals.numWon + item.numWon,
+                totals.numLost + item.numLost
+            ),
+        new Stats("Total", 0, 0, 0, 0, 0)
+    );
+}
 
 export default function ProfitCard() {
     const [stats, setStats] = useState<any>(null); //stats data
@@ -40,46 +88,7 @@ export default function ProfitCard() {
         getStats(); //call fetch on mount
     }, []); //only once when the component mounts
 
-    if (loading) {
-        return <p className="text-7xl font-bold text-muted">Loading...</p>;
-    }
-
-    if (error) {
-        return <p className="text-6xl font-bold text-muted">Error {error}</p>;
-    }
-
-    // If stats is null or empty, return nothing or a message
-    if (!stats || stats.length === 0) {
-        return <p className="text-6xl font-bold text-muted">No data available</p>;
-    }
-
-    console.log(stats)
-
-    //filter data for only selected days
-    const referenceDate = new Date() //today
-    referenceDate.setHours(0, 0, 0, 0); //normalize to midnight
-
-    const filteredData = stats.filter((item: DailyStats) => {
-        const date = new Date(item.date) //already normalize (only stored as day)
-
-        let daysToSubtract = 1
-        if (timeRange === "7d") {
-            daysToSubtract = 7
-        } else if (timeRange === "30d") {
-            daysToSubtract = 30
-        } else if (timeRange === "90d") {
-            daysToSubtract = 90
-        } else if (timeRange === "365d") {
-            daysToSubtract = 365
-        }
-        const startDate = new Date(referenceDate) //start from yesterday
-        startDate.setDate(startDate.getDate() - daysToSubtract - 1) //go back x days
-        return (date >= startDate) && (date != referenceDate) //exclude today because no profit
-    })
-
-    const profit = filteredData.reduce((accumulator: number, currentItem: DailyStats) => {
-        return Math.round((accumulator + currentItem.profit) * 100) / 100;
-    }, 0);
+    const totalStats = getFilteredStats(stats, timeRange) as Stats;
 
     return (
         <Card className="w-1/3">
@@ -117,25 +126,40 @@ export default function ProfitCard() {
                 </Select>
             </CardHeader>
             <CardContent>
-                <div className="flex flex-row w-full justify-between pt-10">
-                    <div className="flex flex-col justify-end">
-                        {loading && <p className="text-7xl font-bold text-muted">Loading...</p>}
-                        {error && <p className="text-6xl font-bold text-muted">Error fetching data</p>}
-                        <p className={`text-7xl font-bold ${profit >= 0 ? 'text-positive' : 'text-negative'}`}>
-                            {profit >= 0 ? `+$${profit}` : `-$${profit}`}
-                        </p>
+                {loading ? (
+                    <p className="text-7xl font-bold text-muted">Loading...</p>
+                ) : error ? (
+                    <p className="text-6xl font-bold text-muted">Error fetching data</p>
+                ) : (
+                    <div>
+                        <div className={`flex flex-row w-full justify-between pt-10 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
+                            <div className="flex flex-col justify-end">
+                                <p className="text-7xl font-bold">
+                                    {totalStats.profit >= 0
+                                        ? `+$${formatNumber(totalStats.profit)}`
+                                        : `-$${formatNumber(Math.abs(totalStats.profit))}`}
+                                </p>
+                            </div>
+                            <div className="flex flex-col justify-end text-xl font-bold">
+                                <p>
+                                    {totalStats.profit >= 0
+                                        ? `+${formatNumber(calcUnits(totalStats.profit))}u`
+                                        : `-${formatNumber(calcUnits(Math.abs(totalStats.profit)))}u`}
+                                </p>
+                                <p>
+                                    {totalStats.profit >= 0
+                                        ? `+${formatNumber(calcROI(totalStats.amountWagered, totalStats.profit))}% ROI`
+                                        : `-${formatNumber(calcROI(totalStats.amountWagered, Math.abs(totalStats.profit)))}% ROI`}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex flex-row justify-end w-full pt-4">
+                            <p className="text-right font-light text-lg text-muted-foreground">
+                                ({totalStats.numWon}-{totalStats.numLost}-{totalStats.getTies()}) across {totalStats.numWon + totalStats.numLost + totalStats.getTies()} bets placed                      </p>
+                        </div>
                     </div>
-                    <div className="flex flex-col justify-end">
-                        <p className="text-xl font-bold text-positive">+2.06u</p>
-                        <p className="text-xl font-bold text-positive">+23.2% ROI</p>
-                    </div>
-                </div>
+                )}
             </CardContent>
-            <CardFooter>
-                <div className="flex flex-row justify-end w-full">
-                    <p className="text-right font-light text-lg text-muted-foreground">(14-10-2) across 26 bets</p>
-                </div>
-            </CardFooter>
         </Card>
     )
 }
