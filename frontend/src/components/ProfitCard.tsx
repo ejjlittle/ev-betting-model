@@ -51,7 +51,7 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
         return (date >= startDate) && (date != referenceDate) //exclude today because no profit
     })
 
-    // Aggregate totals
+    //aggregate totals
     return filteredData.reduce(
         (totals, item) =>
             new Stats(
@@ -155,7 +155,7 @@ export default function ProfitCard() {
                         </div>
                         <div className="flex flex-row justify-end w-full pt-4">
                             <p className="text-right font-light text-lg text-muted-foreground">
-                                ({totalStats.numWon}-{totalStats.numLost}-{totalStats.getTies()}) across {totalStats.numWon + totalStats.numLost + totalStats.getTies()} bets placed                      </p>
+                                ({totalStats.numWon}-{totalStats.numLost}-{totalStats.getTies()}) across {totalStats.numBets} bets placed                      </p>
                         </div>
                     </div>
                 )}

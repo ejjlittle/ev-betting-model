@@ -14,7 +14,6 @@ interface StatsByDate {
 
 export default async function fetchStats(): Promise<Stats[]> {
     const response = await fetch(`${API_URL}/api/stats`);
-    console.log(API_URL);
 
     if (!response.ok) {
         throw new Error("Failed to fetch stats");
