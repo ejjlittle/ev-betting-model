@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { calcROI, calcUnits, formatNumber } from '@/lib/utils';
+import { calcROI, calcUnits } from '@/lib/utils';
 import {
     Card,
     CardContent,
@@ -32,10 +32,11 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
     }
 
     const referenceDate = new Date() //today
-    referenceDate.setHours(0, 0, 0, 0); //normalize to midnight
+    referenceDate.setHours(0, 0, 0, 0)
 
     const filteredData = stats.filter((item: Stats) => {
-        const date = new Date(item.date) //already normalize (only stored as day)
+        const date = new Date(item.date)
+        date.setHours(0, 0, 0, 0)
 
         let daysToSubtract = 1
         if (timeRange === "7d") {
@@ -47,10 +48,11 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
         } else if (timeRange === "365d") {
             daysToSubtract = 365
         }
-        const startDate = new Date(referenceDate) //start from yesterday
-        startDate.setDate(startDate.getDate() - daysToSubtract - 1) //go back x days
-        return (date >= startDate) && (date != referenceDate) //exclude today because no profit
+        const startDate = new Date(referenceDate)
+        startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
+        return date >= startDate && date < referenceDate; //exclude today because no profit
     })
+    console.log(filteredData)
 
     //aggregate totals
     return filteredData.reduce(
@@ -67,11 +69,12 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
     );
 }
 
+
 export default function ProfitCard() {
     const [stats, setStats] = useState<any>(null); //stats data
     const [loading, setLoading] = useState<boolean>(true); //loading state
     const [error, setError] = useState<string | null>(null); //error state
-    const [timeRange, setTimeRange] = useState("1d"); //filtering state
+    const [timeRange, setTimeRange] = useState("7d"); //filtering state (default last 7)
 
     useEffect(() => {
         const getStats = async () => {
@@ -91,6 +94,8 @@ export default function ProfitCard() {
 
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
 
+    
+
     return (
         <Card className="w-1/3">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
@@ -105,7 +110,7 @@ export default function ProfitCard() {
                         className="w-[160px] rounded-xl sm:ml-auto bg-background"
                         aria-label="Select a value"
                     >
-                        <SelectValue placeholder="yesterday" />
+                        <SelectValue placeholder="Last 7 days" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-border bg-background">
                         <SelectItem value="1d" className="rounded-xl">

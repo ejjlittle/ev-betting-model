@@ -36,30 +36,30 @@ function getCumulativeStats(stats: Stats[], timeRange: string) {
         };
     }
 
-    const referenceDate = new Date() //today
-    referenceDate.setHours(0, 0, 0, 0); //normalize to midnight
+    const referenceDate = new Date(); //today
+    referenceDate.setHours(0, 0, 0, 0)
 
     const filteredData = stats.filter((item: Stats) => {
-        const date = new Date(item.date) //already normalize (only stored as day)
+        const date = new Date(item.date);
+        date.setHours(0, 0, 0, 0)
 
-        let daysToSubtract = 1
-        if (timeRange === "7d") {
-            daysToSubtract = 7
-        } else if (timeRange === "30d") {
+        let daysToSubtract = 7
+        if (timeRange === "30d") {
             daysToSubtract = 30
         } else if (timeRange === "90d") {
             daysToSubtract = 90
         } else if (timeRange === "365d") {
             daysToSubtract = 365
         }
-        const startDate = new Date(referenceDate) //start from yesterday
-        startDate.setDate(startDate.getDate() - daysToSubtract - 1) //go back x days
-        return (date >= startDate) && (date != referenceDate) //exclude today because no profit
+        const startDate = new Date(referenceDate)
+        startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
+        return date >= startDate && date < referenceDate //exclude today because no profit
     })
+    console.log(filteredData)
 
     //cumulative totals
     return filteredData.reduce<Stats[]>((acc, current, index) => {
-        const previous = index > 0 ? acc[index - 1] : { 
+        const previous = index > 0 ? acc[index - 1] : {
             date: current.date,
             profit: 0,
             amountWagered: 0,
@@ -111,7 +111,7 @@ export default function ProfitChart() {
     }, []); //only once when the component mounts
 
     const cumulativeStats = getCumulativeStats(stats, timeRange) as Stats[];
-    console.log(cumulativeStats)
+
 
     return (
         <Card className="w-2/3">
