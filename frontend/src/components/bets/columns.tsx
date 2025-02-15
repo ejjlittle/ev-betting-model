@@ -7,21 +7,7 @@ import {
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import { calcUnits } from "@/lib/utils"
-
-export type Bet = {
-    id: string
-    player: string
-    bet: string
-    game: string
-    timePlaced: string
-    book: string
-    bookCount: number
-    wager: number
-    odds: number
-    fairOdds: number
-    ev: number
-    profit: number
-}
+import { Bet } from "@/lib/models"
 
 export const columns: ColumnDef<Bet>[] = [
     {
@@ -219,7 +205,7 @@ export const columns: ColumnDef<Bet>[] = [
         },
         cell: ({ row }) => {
             const odds = row.original.odds;
-            return <div className="text-center">{odds > 0 ? `+${odds}` : `${odds}`}</div>; //prepend + for positive odds
+            return <div className="text-center">{odds > 0 ? `${odds}` : `${odds}`}</div>;
         },
     },
     {
@@ -249,7 +235,7 @@ export const columns: ColumnDef<Bet>[] = [
         },
         cell: ({ row }) => {
             const fairOdds = row.original.fairOdds;
-            return <div className="text-center">{fairOdds > 0 ? `+${fairOdds}` : `${fairOdds}`}</div>; //prepend + for positive odds
+            return <div className="text-center">{fairOdds > 0 ? `${fairOdds}` : `${fairOdds}`}</div>; //prepend + for positive odds
         },
     },
     {

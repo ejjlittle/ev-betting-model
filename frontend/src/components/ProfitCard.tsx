@@ -52,7 +52,6 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
         startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
         return date >= startDate && date < referenceDate; //exclude today because no profit
     })
-    console.log(filteredData)
 
     //aggregate totals
     return filteredData.reduce(
@@ -93,7 +92,6 @@ export default function ProfitCard() {
     }, []); //only once when the component mounts
 
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
-
     
 
     return (

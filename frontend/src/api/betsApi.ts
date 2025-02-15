@@ -1,4 +1,26 @@
-const API_URL = process.env.BACKEND_API_URL;
+import { Bet } from "@/lib/models";
+const API_URL = import.meta.env.VITE_BACKEND_API_URL;
+
+//how data is stored in the json response
+interface BetDetails {
+    [player: string]: {
+        Wager: string; //stored as string for precision
+        Profit: string; //stored as string for precision
+        EV: number;
+        Date: string;
+        GameTime: string;
+        TimePlaced: string;
+        Sport: string;
+        League: string;
+        Game: string;
+        Market: string;
+        BetName: string;
+        Odds: string;
+        Book: string;
+        FairOdds: string;
+        BookCount: number;
+    }
+}
 
 export default async function fetchBets(date: Date) {
     const today = new Date();
@@ -11,10 +33,10 @@ export default async function fetchBets(date: Date) {
 
     let response: Response;
     //different API endpoints are used for efficient caching of data
-    if (formattedDate === formattedToday){ 
-        response = await fetch(`${API_URL}/api/bets/today/${date}`); //getting live from same day
-    } else if (date < today){
-        response = await fetch(`${API_URL}/api/bets/historical/${date}`); //getting constant historical data
+    if (formattedDate === formattedToday) {
+        response = await fetch(`${API_URL}/api/bets/today?date=${formattedToday}`); //getting live from same day
+    } else if (date < today) {
+        response = await fetch(`${API_URL}/api/bets/historical?date=${formattedDate}`); //getting constant historical data
     } else {
         response = new Response(); //no bets for future days
     }
@@ -23,5 +45,24 @@ export default async function fetchBets(date: Date) {
         throw new Error("Failed to fetch stats");
     }
 
-    return response.json();
+    const jsonResponse: BetDetails = await response.json(); //convert response to StatsObjects json
+
+    //map to array of DailyStats that include date as property (for easier data manipulation)
+    const betsArray: Bet[] = Object.keys(jsonResponse).map(player => {
+        const item = jsonResponse[player];
+        return new Bet(player, 
+            `${item.BetName} ${item.Market}`, 
+            item.Game, 
+            item.TimePlaced, 
+            item.Book,
+            item.BookCount,
+            item.Wager,
+            item.Odds,
+            item.FairOdds,
+            item.EV,
+            item.Profit
+        );
+    });
+
+    return betsArray;
 }

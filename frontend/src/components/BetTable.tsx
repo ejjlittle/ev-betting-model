@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DatePicker from "./DatePicker";
 import {
     Card,
     CardContent,
@@ -7,369 +6,33 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Bet, columns } from "./bets/columns"
+import { columns } from "./bets/columns"
 import { DataTable } from "./bets/data-table"
-
-//simulated API call
-async function getData(): Promise<Bet[]> {
-    return Promise.resolve([
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-        {
-            id: "exampleID",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:33 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.5,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Shai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:43 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 1.24,
-            profit: 12.77,
-        },
-        {
-            id: "exampleID2",
-            player: "Ahai Gilgeous-Alexander",
-            bet: "Over 2.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 7,
-            wager: 92.51,
-            odds: 230,
-            fairOdds: 182,
-            ev: 17.15,
-            profit: 212.77,
-        },
-        {
-            id: "exampleID3",
-            player: "Bhai Gilgeous-Alexander",
-            bet: "Over 1.5 Player Threes",
-            game: "Oklahoma City Thunder @ Memphis Grizzlies",
-            timePlaced: "07:53 AM",
-            book: "FanDuel",
-            bookCount: 5,
-            wager: 92.51,
-            odds: 210,
-            fairOdds: 190,
-            ev: 7.15,
-            profit: -12.77,
-        },
-    ]);
-}
+import fetchBets from "@/api/betsApi";
+import DatePicker from "./DatePicker";
 
 
 export default function BetTable() {
-    const [data, setData] = useState<Bet[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date()); //default date is today
 
-    //load in data
     useEffect(() => {
-        getData()
-            .then((bets) => {
-                setData(bets);
+        const getBets = async () => {
+            try {
+                setLoading(true);
+                const betData = await fetchBets(selectedDate);
+                setData(betData);
+            } catch (err) {
+                setError('Failed to fetch stats');
+            } finally {
                 setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-                setLoading(false);
-            });
-    }, []);
+            }
+        };
 
+        getBets();
+    }, [selectedDate]); //fetch bets when date changes
 
     return (
         <Card className="flex-1">
@@ -377,19 +40,21 @@ export default function BetTable() {
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
                     <CardTitle>Bets Placed</CardTitle>
                     <CardDescription>
-                        Displays the bets placed by the model on any given day <br/>
+                        Displays the bets placed by the model on any given day <br />
                         Hover over each header for more info
                     </CardDescription>
                 </div>
-                <DatePicker />
+                <DatePicker date={selectedDate} setDate={setSelectedDate} />
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <p>Fetching bets...</p>
+                    <p className="text-7xl font-bold text-muted">Loading...</p>
+                ) : error ? (
+                    <p className="text-6xl font-bold text-muted">Error fetching data</p>
                 ) : (
                     <DataTable columns={columns} data={data} />
                 )}
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -11,7 +11,7 @@ export function calcUnits(usd: number){
 }
 
 export function calcROI(wagered: number, profit: number){
-  return Math.round(profit / wagered * 100 * 100) / 100 //round two decimals as percentage
+  return wagered === 0 ? 0 :Math.round(profit / wagered * 100 * 100) / 100 //round two decimals as percentage
 }
 
 export function formatNumber(num: number): string {

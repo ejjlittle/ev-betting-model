@@ -6,16 +6,22 @@ export class Stats {
     numWon: number;
     numLost: number;
 
-    constructor(date: string, profit: number | string, amountWagered: number | string, numBets: number, numWon: number, numLost: number) {
+    constructor(date: string, 
+        profit: number | string, 
+        amountWagered: number | string, 
+        numBets: number, 
+        numWon: number, 
+        numLost: number
+    ) {
         this.date = date
         this.numBets = numBets;
         this.numWon = numWon;
         this.numLost = numLost;
-        this.profit = this.parseNumber(profit);
-        this.amountWagered = this.parseNumber(amountWagered);
+        this.profit = this.parseDollar(profit);
+        this.amountWagered = this.parseDollar(amountWagered);
     }
 
-    private parseNumber(value: number | string){
+    private parseDollar(value: number | string){
         if (typeof value === "string") {
             const parsed = parseFloat(value);
             return isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100;
@@ -25,5 +31,63 @@ export class Stats {
 
     getTies() {
         return this.numBets - this.numLost - this.numWon
+    }
+}
+
+export class Bet {
+    player: string;
+    bet: string;
+    game: string;
+    timePlaced: string;
+    book: string;
+    bookCount: number;
+    wager: number;
+    odds: number;
+    fairOdds: number;
+    ev: number;
+    profit: number;
+
+    constructor(
+        player: string,
+        bet: string,
+        game: string,
+        timePlaced: string,
+        book: string,
+        bookCount: number,
+        wager: number | string,
+        odds: number | string,
+        fairOdds: number | string,
+        ev: number,
+        profit: number | string
+    ) {
+        this.player = player;
+        this.bet = bet;
+        this.game = game;
+        this.timePlaced = timePlaced;
+        this.book = book;
+        this.bookCount = bookCount;
+        this.wager = this.parseDollar(wager);
+        this.odds = this.parseOdds(odds);
+        this.fairOdds = this.parseOdds(fairOdds);
+        this.ev = ev;
+        this.profit = this.parseDollar(profit);
+    }
+
+    private parseDollar(value: number | string){
+        if (typeof value === "string") {
+            const parsed = parseFloat(value);
+            return isNaN(parsed) ? 0 : Math.round(parsed * 100) / 100;
+        }
+        return value;
+    }
+
+    private parseOdds(value: number | string){
+        if (typeof value === "string") {
+            const parsed = parseInt(value);
+            if (isNaN(parsed)) {
+                return 0;
+            }
+        }
+        return value as number;
     }
 }

@@ -55,7 +55,6 @@ function getCumulativeStats(stats: Stats[], timeRange: string) {
         startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
         return date >= startDate && date < referenceDate //exclude today because no profit
     })
-    console.log(filteredData)
 
     //cumulative totals
     return filteredData.reduce<Stats[]>((acc, current, index) => {
