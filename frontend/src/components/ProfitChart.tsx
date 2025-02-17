@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import {
     Card,
@@ -21,9 +21,9 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Stats } from '@/lib/models';
-import fetchStats from "@/api/statsApi"
 
-function getCumulativeStats(stats: Stats[], timeRange: string) {
+
+function getCumulativeStats(stats: Stats[] | null, timeRange: string) {
     //check for no stats
     if (!stats || stats.length === 0) {
         return {
@@ -80,6 +80,7 @@ function getCumulativeStats(stats: Stats[], timeRange: string) {
     }, []);
 }
 
+
 const chartConfig = {
     profit: {
         label: "Profit",
@@ -87,30 +88,16 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-export default function ProfitChart() {
-    const [stats, setStats] = useState<any>(null); //stats data
-    const [loading, setLoading] = useState<boolean>(true); //loading state
-    const [error, setError] = useState<string | null>(null); //error state
+interface ProfitChartProps {
+    stats: Stats[] | null;
+    loading: boolean;
+    error: string | null;
+  }
+
+
+export default function ProfitChart({ stats, loading, error }: ProfitChartProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state
-
-    useEffect(() => {
-        const getStats = async () => {
-            try {
-                setLoading(true);
-                const statsData = await fetchStats();
-                setStats(statsData);
-            } catch (err) {
-                setError('Failed to fetch stats');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        getStats(); //call fetch on mount
-    }, []); //only once when the component mounts
-
     const cumulativeStats = getCumulativeStats(stats, timeRange) as Stats[];
-
 
     return (
         <Card className="w-2/3">
@@ -149,9 +136,9 @@ export default function ProfitChart() {
                     config={chartConfig}
                     className="aspect-auto h-[190px] w-full">
                     {loading ? (
-                        <p className="text-7xl font-bold text-muted">Loading...</p>
+                        <p className="text-center text-base">Fetching graph data...</p>
                     ) : error ? (
-                        <p className="text-6xl font-bold text-muted">Error fetching data</p>
+                        <p className="text-center text-base">Error fetching graph data</p>
                     ) : (
                         <AreaChart data={cumulativeStats}>
                             <defs>
@@ -172,7 +159,7 @@ export default function ProfitChart() {
                             <XAxis
                                 dataKey="date"
                                 tickLine={false}
-                                axisLine={false}
+                                axisLine={true}
                                 tickMargin={8}
                                 minTickGap={32}
                                 tickFormatter={(value) => {
@@ -184,7 +171,7 @@ export default function ProfitChart() {
                                 }}
                             />
                             <ChartTooltip
-                                cursor={false}
+                                cursor={true}
                                 content={
                                     <ChartTooltipContent
                                         labelFormatter={(value) => {
@@ -199,7 +186,7 @@ export default function ProfitChart() {
                             />
                             <Area
                                 dataKey="profit"
-                                type="natural"
+                                type="monotone"
                                 fill="url(#fillProfit)"
                                 stroke="var(--color-profit)"
                                 stackId="a"

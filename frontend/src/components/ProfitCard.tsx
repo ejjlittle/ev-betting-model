@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { calcROI, calcUnits } from '@/lib/utils';
 import {
     Card,
@@ -14,11 +14,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import fetchStats from "@/api/statsApi"
 import { Stats } from '@/lib/models';
 import Counter from './Counter';
 
-function getFilteredStats(stats: Stats[], timeRange: string) {
+function getFilteredStats(stats: Stats[] | null, timeRange: string) {
     //check for no stats
     if (!stats || stats.length === 0) {
         return {
@@ -68,32 +67,16 @@ function getFilteredStats(stats: Stats[], timeRange: string) {
     );
 }
 
+interface ProfitCardProps {
+    stats: Stats[] | null;
+    loading: boolean;
+    error: string | null;
+  }
 
-export default function ProfitCard() {
-    const [stats, setStats] = useState<any>(null); //stats data
-    const [loading, setLoading] = useState<boolean>(true); //loading state
-    const [error, setError] = useState<string | null>(null); //error state
+export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state (default last 7)
-
-    useEffect(() => {
-        const getStats = async () => {
-            try {
-                setLoading(true);
-                const statsData = await fetchStats();
-                setStats(statsData);
-            } catch (err) {
-                setError('Failed to fetch stats');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        getStats(); //call fetch on mount
-    }, []); //only once when the component mounts
-
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
     
-
     return (
         <Card className="w-1/3">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
@@ -131,9 +114,9 @@ export default function ProfitCard() {
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <p className="text-7xl font-bold text-muted">Loading...</p>
+                    <p className="text-center pt-4 text-base">Fetching stats...</p>
                 ) : error ? (
-                    <p className="text-6xl font-bold text-muted">Error fetching data</p>
+                    <p className="text-center pt-4 text-base">Error fetching stats</p>
                 ) : (
                     <div>
                         <div className={`flex flex-row w-full justify-between pt-10 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>

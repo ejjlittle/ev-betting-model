@@ -48,9 +48,9 @@ export default function BetTable() {
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <p className="text-7xl font-bold text-muted">Loading...</p>
+                    <p className="text-center pt-4 text-base">Fetching bets...</p>
                 ) : error ? (
-                    <p className="text-6xl font-bold text-muted">Error fetching data</p>
+                    <p className="text-center pt-4 text-base">Error fetching bets</p>
                 ) : (
                     <DataTable columns={columns} data={data} />
                 )}
