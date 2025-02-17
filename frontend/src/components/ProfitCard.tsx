@@ -78,9 +78,9 @@ export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
     
     return (
-        <Card className="w-1/3">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
-                <div className="grid flex-1 gap-1 text-center sm:text-left">
+        <Card>
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
+                <div className="grid flex-1 gap-1 text-left">
                     <CardTitle>Profit</CardTitle>
                     <CardDescription>
                         Displays the profit over a period of time
@@ -114,17 +114,17 @@ export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <p className="text-center pt-4 text-base">Fetching stats...</p>
+                    <p className="text-center pt-4 text-base font-normal">Fetching stats...</p>
                 ) : error ? (
-                    <p className="text-center pt-4 text-base">Error fetching stats</p>
+                    <p className="text-center pt-4 text-base font-normal">Error fetching stats</p>
                 ) : (
                     <div>
-                        <div className={`flex flex-row w-full justify-between pt-10 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
-                            <span className="text-7xl flex items-center font-bold">
+                        <div className={`flex flex-row w-full gap-x-1 pt-10 sm:gap-x-5 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
+                            <span className="flex items-center font-bold text-5xl sm:text-6xl md:text-7xl">
                                 {totalStats.profit >= 0 ? "+$" : "-$"}
                                 <Counter value={Math.abs(totalStats.profit)} />
                             </span>
-                            <div className="flex flex-col justify-end text-xl font-bold">
+                            <div className="flex flex-col justify-end font-bold whitespace-nowrap text-lg sm:text-xl">
                                 <span className="flex flex-row">
                                     {totalStats.profit >= 0 ? "+" : "-"}
                                     <Counter value={calcUnits(Math.abs(totalStats.profit))} />u
@@ -135,7 +135,7 @@ export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
                                 </span>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-end w-full pt-4">
+                        <div className="flex-row justify-end w-full pt-4">
                             <p className="text-right font-light text-lg text-muted-foreground">
                                 ({totalStats.numWon}-{totalStats.numLost}-{totalStats.getTies()}) across {totalStats.numBets} bets placed                      </p>
                         </div>

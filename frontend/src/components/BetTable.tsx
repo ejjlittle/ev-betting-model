@@ -36,11 +36,10 @@ export default function BetTable() {
 
     return (
         <Card className="flex-1">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
-                <div className="grid flex-1 gap-1 text-center sm:text-left">
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
+                <div className="grid flex-1 gap-1 text-left">
                     <CardTitle>Bets Placed</CardTitle>
-                    <CardDescription>
-                        Displays the bets placed by the model on any given day <br />
+                    <CardDescription  className="hidden sm:block">
                         Hover over each header for more info
                     </CardDescription>
                 </div>
@@ -48,9 +47,9 @@ export default function BetTable() {
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <p className="text-center pt-4 text-base">Fetching bets...</p>
+                    <p className="text-center pt-4 text-base font-normal">Fetching bets...</p>
                 ) : error ? (
-                    <p className="text-center pt-4 text-base">Error fetching bets</p>
+                    <p className="text-center pt-4 text-base font-normal">Error fetching bets</p>
                 ) : (
                     <DataTable columns={columns} data={data} />
                 )}

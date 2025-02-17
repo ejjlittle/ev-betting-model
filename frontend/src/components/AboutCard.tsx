@@ -9,8 +9,8 @@ import {
 export default function AboutCard(){
     return(
     <Card className="flex-1">
-        <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
-            <div className="grid flex-1 gap-1 text-center sm:text-left">
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
+            <div className="grid flex-1 gap-1 text-left">
                 <CardTitle>About</CardTitle>
                 <CardDescription>
                 A short destription of the betting model

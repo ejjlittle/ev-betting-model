@@ -92,7 +92,7 @@ interface ProfitChartProps {
     stats: Stats[] | null;
     loading: boolean;
     error: string | null;
-  }
+}
 
 
 export default function ProfitChart({ stats, loading, error }: ProfitChartProps) {
@@ -100,9 +100,9 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
     const cumulativeStats = getCumulativeStats(stats, timeRange) as Stats[];
 
     return (
-        <Card className="w-2/3">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 sm:flex-row">
-                <div className="grid flex-1 gap-1 text-center sm:text-left">
+        <Card className="w-full">
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
+                <div className="grid flex-1 gap-1 text-left">
                     <CardTitle>Cumulative Profit</CardTitle>
                     <CardDescription>
                         Displays cumulative profit over a period of time
@@ -110,7 +110,7 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
                     <SelectTrigger
-                        className="w-[160px] rounded-xl sm:ml-auto bg-background"
+                        className="w-[160px] rounded-xl ml-auto bg-background"
                         aria-label="Select a value"
                     >
                         <SelectValue placeholder="Last 7 days" />
@@ -131,15 +131,16 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                     </SelectContent>
                 </Select>
             </CardHeader>
-            <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-                <ChartContainer
-                    config={chartConfig}
-                    className="aspect-auto h-[190px] w-full">
-                    {loading ? (
-                        <p className="text-center text-base">Fetching graph data...</p>
-                    ) : error ? (
-                        <p className="text-center text-base">Error fetching graph data</p>
-                    ) : (
+            <CardContent>
+                {loading ? (
+                    <p className="text-center text-base font-normal pt-4">Fetching graph data...</p>
+                ) : error ? (
+                    <p className="text-center text-base font-normal pt-4">Error fetching graph data</p>
+                ) : (
+                    <ChartContainer
+                        config={chartConfig}
+                        className="aspect-auto h-[190px] w-full pt-4">
+
                         <AreaChart data={cumulativeStats}>
                             <defs>
                                 <linearGradient id="fillProfit" x1="0" y1="0" x2="0" y2="1">
@@ -160,8 +161,8 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                                 dataKey="date"
                                 tickLine={false}
                                 axisLine={true}
-                                tickMargin={8}
-                                minTickGap={32}
+                                tickMargin={12}
+                                minTickGap={24}
                                 tickFormatter={(value) => {
                                     const date = new Date(value)
                                     return date.toLocaleDateString("en-US", {
@@ -192,8 +193,9 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                                 stackId="a"
                             />
                         </AreaChart>
-                    )}
-                </ChartContainer>
+
+                    </ChartContainer>
+                )}
             </CardContent>
         </Card>
     )

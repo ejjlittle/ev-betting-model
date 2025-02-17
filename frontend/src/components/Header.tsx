@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react';
 
 export default function Header() {
   return (
-    <div className="bg-card pt-10 pl-5 pb-10 border-b border-border">
+    <div className="bg-card pt-10 pl-5 pb-10 pr-5 border-b border-border">
       <h1 className="text-5xl font-bold text-primary pb-6">
         <span className="text-positive">+ev </span>
         betting model
