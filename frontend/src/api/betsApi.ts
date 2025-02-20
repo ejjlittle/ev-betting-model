@@ -53,7 +53,7 @@ export default async function fetchBets(date: Date) {
         return new Bet(player, 
             `${item.BetName} ${item.Market}`, 
             item.Game, 
-            item.TimePlaced, 
+            new Date(`2025-01-01 ${item.TimePlaced} EST`), //nomralize to 2025-1-1
             item.Book,
             item.BookCount,
             item.Wager,

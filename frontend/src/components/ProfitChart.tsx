@@ -36,25 +36,17 @@ function getCumulativeStats(stats: Stats[] | null, timeRange: string) {
         };
     }
 
-    const referenceDate = new Date(); //today
-    referenceDate.setHours(0, 0, 0, 0)
+    let daysToSubtract = 7
+    if (timeRange === "30d") {
+        daysToSubtract = 30
+    } else if (timeRange === "90d") {
+        daysToSubtract = 90
+    } else if (timeRange === "365d") {
+        daysToSubtract = 365
+    }
 
-    const filteredData = stats.filter((item: Stats) => {
-        const date = new Date(item.date);
-        date.setHours(0, 0, 0, 0)
-
-        let daysToSubtract = 7
-        if (timeRange === "30d") {
-            daysToSubtract = 30
-        } else if (timeRange === "90d") {
-            daysToSubtract = 90
-        } else if (timeRange === "365d") {
-            daysToSubtract = 365
-        }
-        const startDate = new Date(referenceDate)
-        startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
-        return date >= startDate && date < referenceDate //exclude today because no profit
-    })
+    //note: stats already excludes the current date
+    const filteredData = stats.slice(-daysToSubtract);
 
     //cumulative totals
     return filteredData.reduce<Stats[]>((acc, current, index) => {
@@ -84,7 +76,6 @@ function getCumulativeStats(stats: Stats[] | null, timeRange: string) {
 const chartConfig = {
     profit: {
         label: "Profit",
-        color: "hsl(var(--positive))",
     },
 } satisfies ChartConfig
 
@@ -98,6 +89,10 @@ interface ProfitChartProps {
 export default function ProfitChart({ stats, loading, error }: ProfitChartProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state
     const cumulativeStats = getCumulativeStats(stats, timeRange) as Stats[];
+    const lastStat = cumulativeStats[cumulativeStats.length - 1]
+    const chartColor = lastStat && lastStat.profit >= 0
+        ? "hsl(var(--positive))"
+        : "hsl(var(--negative))";
 
     return (
         <Card className="w-full">
@@ -146,12 +141,12 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                                 <linearGradient id="fillProfit" x1="0" y1="0" x2="0" y2="1">
                                     <stop
                                         offset="20%"
-                                        stopColor="var(--color-profit)"
+                                        stopColor={chartColor}
                                         stopOpacity={1}
                                     />
                                     <stop
                                         offset="100%"
-                                        stopColor="var(--color-profit)"
+                                        stopColor={chartColor}
                                         stopOpacity={0}
                                     />
                                 </linearGradient>
@@ -189,7 +184,7 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                                 dataKey="profit"
                                 type="monotone"
                                 fill="url(#fillProfit)"
-                                stroke="var(--color-profit)"
+                                stroke={chartColor}
                                 stackId="a"
                             />
                         </AreaChart>

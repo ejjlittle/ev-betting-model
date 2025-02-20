@@ -38,7 +38,7 @@ export class Bet {
     player: string;
     bet: string;
     game: string;
-    timePlaced: string;
+    timePlaced: Date;
     book: string;
     bookCount: number;
     wager: number;
@@ -51,7 +51,7 @@ export class Bet {
         player: string,
         bet: string,
         game: string,
-        timePlaced: string,
+        timePlaced: Date,
         book: string,
         bookCount: number,
         wager: number | string,
@@ -63,7 +63,7 @@ export class Bet {
         this.player = player;
         this.bet = bet;
         this.game = game;
-        this.timePlaced = timePlaced;
+        this.timePlaced = timePlaced; //normalize all times to 2025-01-01
         this.book = book;
         this.bookCount = bookCount;
         this.wager = this.parseDollar(wager);

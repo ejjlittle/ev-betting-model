@@ -24,13 +24,21 @@ export default async function fetchStats(): Promise<Stats[]> {
     //map to array of DailyStats that include date as property (for easier data manipulation)
     const statsArray: Stats[] = Object.keys(jsonResponse).map(date => {
         const item = jsonResponse[date];
-        return new Stats(date, 
-            item.Profit, 
-            item.AmountWagered, 
-            item.NumBets, 
-            item.NumWon, 
+        return new Stats(date,
+            item.Profit,
+            item.AmountWagered,
+            item.NumBets,
+            item.NumWon,
             item.NumLost
         );
     });
+
+    //sort in ascending order (oldest date first)
+    statsArray.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA.getTime() - dateB.getTime();
+    });
+
     return statsArray;
 }

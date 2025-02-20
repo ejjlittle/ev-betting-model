@@ -112,16 +112,17 @@ export const columns: ColumnDef<Bet>[] = [
                         <HoverCardTrigger>Time placed</HoverCardTrigger>
                         <HoverCardContent>
                             All times are displayed <br />
-                            in Eastern Standard Time
+                            in local time
                         </HoverCardContent>
                     </HoverCard>
                     <ArrowUpDown className="h-4 w-4" />
                 </Button>
             )
         },
-        cell: ({ row }) => (
-            <div className="text-center">{row.getValue("timePlaced")}</div>
-        ),
+        cell: ({ row }) => {
+            const date = row.getValue("timePlaced") as Date
+            return <div className="text-center">{date.toLocaleTimeString()}</div>
+        },
     },
     {
         accessorKey: "bookCount",

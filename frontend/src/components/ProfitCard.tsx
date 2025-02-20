@@ -30,27 +30,19 @@ function getFilteredStats(stats: Stats[] | null, timeRange: string) {
         };
     }
 
-    const referenceDate = new Date() //today
-    referenceDate.setHours(0, 0, 0, 0)
+    let daysToSubtract = 1
+    if (timeRange === "7d") {
+        daysToSubtract = 7
+    } else if (timeRange === "30d") {
+        daysToSubtract = 30
+    } else if (timeRange === "90d") {
+        daysToSubtract = 90
+    } else if (timeRange === "365d") {
+        daysToSubtract = 365
+    }
 
-    const filteredData = stats.filter((item: Stats) => {
-        const date = new Date(item.date)
-        date.setHours(0, 0, 0, 0)
-
-        let daysToSubtract = 1
-        if (timeRange === "7d") {
-            daysToSubtract = 7
-        } else if (timeRange === "30d") {
-            daysToSubtract = 30
-        } else if (timeRange === "90d") {
-            daysToSubtract = 90
-        } else if (timeRange === "365d") {
-            daysToSubtract = 365
-        }
-        const startDate = new Date(referenceDate)
-        startDate.setDate(startDate.getDate() - daysToSubtract) //go back x + 1 days
-        return date >= startDate && date < referenceDate; //exclude today because no profit
-    })
+    //note: stats already excludes the current date
+    const filteredData = stats.slice(-daysToSubtract);
 
     //aggregate totals
     return filteredData.reduce(
@@ -71,12 +63,12 @@ interface ProfitCardProps {
     stats: Stats[] | null;
     loading: boolean;
     error: string | null;
-  }
+}
 
 export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state (default last 7)
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
-    
+
     return (
         <Card>
             <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
@@ -124,7 +116,7 @@ export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
                                 {totalStats.profit >= 0 ? "+$" : "-$"}
                                 <Counter value={Math.abs(totalStats.profit)} />
                             </span>
-                            <div className="flex flex-col justify-end font-bold whitespace-nowrap text-lg sm:text-xl">
+                            <div className="flex flex-col justify-end font-bold whitespace-nowrap text-sm sm:text-lg md:text-xl">
                                 <span className="flex flex-row">
                                     {totalStats.profit >= 0 ? "+" : "-"}
                                     <Counter value={calcUnits(Math.abs(totalStats.profit))} />u

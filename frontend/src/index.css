@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,5 +30,22 @@
     --chart-5: 240 2% 26%;
     --positive: 158.1 64.4% 51.6%;
     --negative: 349.7 89.2% 60.2%;
+  }
+
+  .scrollable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: hsl(var(--background));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background: hsl(var(--border));
   }
 }
