@@ -96,7 +96,7 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
 
     return (
         <Card className="w-full">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b border-border py-5 flex-row">
+            <CardHeader className="flex flex-col items-center gap-2 space-y-0 border-b border-border py-5 xs:flex-row">
                 <div className="grid flex-1 gap-1 text-left">
                     <CardTitle>Cumulative Profit</CardTitle>
                     <CardDescription>
@@ -105,7 +105,7 @@ export default function ProfitChart({ stats, loading, error }: ProfitChartProps)
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
                     <SelectTrigger
-                        className="w-[160px] rounded-xl ml-auto bg-background"
+                        className="w-[160px] rounded-xl sm:ml-auto bg-background"
                         aria-label="Select a value"
                     >
                         <SelectValue placeholder="Last 7 days" />

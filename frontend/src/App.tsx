@@ -32,7 +32,7 @@ function App() {
     <div className="bg-background">
       <Header />
       <div className="p-5 pt-7 space-y-5">
-        <div className="flex flex-col space-x-0 space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0">
+        <div className="flex flex-col space-x-0 space-y-5 xl:flex-row xl:space-x-5 xl:space-y-0">
           <ProfitCard stats={stats} loading={loading} error={error}/>
           <ProfitChart stats={stats} loading={loading} error={error}/>
         </div>
