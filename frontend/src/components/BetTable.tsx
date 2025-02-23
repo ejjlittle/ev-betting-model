@@ -10,13 +10,14 @@ import { columns } from "./bets/columns"
 import { DataTable } from "./bets/data-table"
 import fetchBets from "@/api/betsApi";
 import DatePicker from "./DatePicker";
+import { convertToEST } from "@/lib/utils";
 
 
 export default function BetTable() {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date()); //default date is today
+    const [selectedDate, setSelectedDate] = useState<Date>(convertToEST(new Date())); //default date is today
 
     useEffect(() => {
         const getBets = async () => {

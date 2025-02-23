@@ -1,11 +1,13 @@
 import json
 from shared.db import setup
 from datetime import datetime, timedelta
+import pytz
 from pprint import pprint
 
 #--GET DAILY STATS FOR LAST 365 DAYS--#
 def getStats(placedBets):
-    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    est = pytz.timezone('America/New_York')
+    today = datetime.now(est).replace(hour=0, minute=0, second=0, microsecond=0)
     startDate = today - timedelta(days=366)
     
     #query MongoDB for all records in the last 365 days

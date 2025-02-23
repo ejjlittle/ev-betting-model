@@ -1,4 +1,5 @@
 import { Bet } from "@/lib/models";
+import { convertToEST } from "@/lib/utils"
 const API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 //how data is stored in the json response
@@ -22,14 +23,32 @@ interface BetDetails {
     }
 }
 
-export default async function fetchBets(date: Date) {
-    const today = new Date();
+function getEstDateString(date: Date): string {
+    const estFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    });
 
-    //convert to YYYY-MM-DD 
-    //Note: do not need to worry about timezones because ISO is standardized to UTC
-    //and dates are stored in DB as Date objects, which are also standardized to UTC  
-    const formattedDate = date.toISOString().split("T")[0];
-    const formattedToday = today.toISOString().split("T")[0];
+    const parts = estFormatter.formatToParts(date);
+    const year = parts.find(part => part.type === 'year')?.value || '';
+    const month = parts.find(part => part.type === 'month')?.value || '';
+    const day = parts.find(part => part.type === 'day')?.value || '';
+
+    return `${year}-${month}-${day}`;
+}
+
+export default async function fetchBets(date: Date) {
+    const today = convertToEST(new Date());
+
+    //convert to YYYY-MM-DD  
+    const formattedDate = getEstDateString(date)
+    const formattedToday = getEstDateString(today)
+
+    console.log(today)
+    console.log(formattedToday)
+
 
     let response: Response;
     //different API endpoints are used for efficient caching of data

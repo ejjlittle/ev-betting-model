@@ -14,6 +14,10 @@ export function calcROI(wagered: number, profit: number){
   return wagered === 0 ? 0 :Math.round(profit / wagered * 100 * 100) / 100 //round two decimals as percentage
 }
 
+export function convertToEST(date: Date) {
+  return new Date(date.toLocaleString("en-US", { timeZone: "America/New_York" }));
+}
+
 export function formatNumber(num: number): string {
   if (num >= 1_000_000_000) {
       return (num / 1_000_000_000).toFixed(2) + "B"; // Billion

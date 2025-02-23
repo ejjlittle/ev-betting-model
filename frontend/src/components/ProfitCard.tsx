@@ -43,6 +43,7 @@ function getFilteredStats(stats: Stats[] | null, timeRange: string) {
 
     //note: stats already excludes the current date
     const filteredData = stats.slice(-daysToSubtract);
+    console.log(filteredData)
 
     //aggregate totals
     return filteredData.reduce(
@@ -67,6 +68,7 @@ interface ProfitCardProps {
 
 export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state (default last 7)
+    console.log(stats)
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
 
     return (
