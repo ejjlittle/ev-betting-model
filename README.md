@@ -10,6 +10,7 @@ This is a personal project showcasing my **+EV betting model** that identifies a
 - **Frontend:** React (Vite + TS)  
 - **Backend:** AWS Lambda, API Gateway  
 - **Infrastructure:** S3 (REST API), CloudFront (CDN), MongoDB Atlas (Data Storage)
+
 ![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
 ## **How It Works**
