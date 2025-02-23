@@ -11,7 +11,15 @@ This is a personal project showcasing my **+EV betting model** that identifies a
 - **Backend:** AWS Lambda, API Gateway  
 - **Infrastructure:** S3 (REST API), CloudFront (CDN), MongoDB Atlas (Data Storage)
 
-![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) <!-- React -->
+![image](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E) <!-- Vite -->
+![image](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white) <!-- AWS -->
+![image](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white) <!-- ShadCn -->
+![image](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) <!-- Tailwind -->
+![image](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) <!-- TS -->
+![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue) <!-- Python -->
+![image](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white) <!-- MongoDB -->
+
 
 ## **How It Works**
 1. **Bet Scraping**: The model pings an API every 5 minutes to check for betting lines with postive expected value.  
