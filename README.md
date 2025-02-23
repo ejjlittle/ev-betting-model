@@ -10,7 +10,7 @@ This is a personal project showcasing my **+EV betting model** that identifies a
 - **Frontend:** React (Vite + TS)  
 - **Backend:** AWS Lambda, API Gateway  
 - **Infrastructure:** S3 (REST API), CloudFront (CDN), MongoDB Atlas (Data Storage)
-<img src="https://img.shields.io/badge/Homarr-FA5252?style=for-the-badge&logo=homarr&logoColor=white" />
+![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
 ## **How It Works**
 1. **Bet Scraping**: The model pings an API every 5 minutes to check for betting lines with postive expected value.  
