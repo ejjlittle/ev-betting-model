@@ -46,9 +46,6 @@ export default async function fetchBets(date: Date) {
     const formattedDate = getEstDateString(date)
     const formattedToday = getEstDateString(today)
 
-    console.log(today)
-    console.log(formattedToday)
-
 
     let response: Response;
     //different API endpoints are used for efficient caching of data

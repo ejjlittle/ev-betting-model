@@ -43,7 +43,6 @@ function getFilteredStats(stats: Stats[] | null, timeRange: string) {
 
     //note: stats already excludes the current date
     const filteredData = stats.slice(-daysToSubtract);
-    console.log(filteredData)
 
     //aggregate totals
     return filteredData.reduce(
@@ -68,11 +67,10 @@ interface ProfitCardProps {
 
 export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
     const [timeRange, setTimeRange] = useState("7d"); //filtering state (default last 7)
-    console.log(stats)
     const totalStats = getFilteredStats(stats, timeRange) as Stats;
 
     return (
-        <Card className="md:min-w-[550px] md:min-h-[288.4px]">
+        <Card className="xl:min-w-[550px] xl:min-h-[288.4px]">
             <CardHeader className="flex flex-col items-center gap-2 space-y-0 border-b border-border py-5 xs:flex-row">
                 <div className="grid flex-1 gap-1 text-left">
                     <CardTitle>Profit</CardTitle>
@@ -113,12 +111,12 @@ export default function ProfitCard({ stats, loading, error }: ProfitCardProps) {
                     <p className="text-center pt-4 text-base font-normal">Error fetching stats</p>
                 ) : (
                     <div>
-                        <div className={`flex flex-row w-full gap-x-1 pt-10 sm:gap-x-5 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
-                            <span className="flex items-center font-bold text-4xl xs:text-5xl sm:text-6xl md:text-7xl">
+                        <div className={`flex flex-row w-full gap-x-2 font-bold pt-10 sm:gap-x-5 ${totalStats.profit >= 0 ? 'text-positive' : 'text-negative'}`}>
+                            <span className="flex items-center  text-3xl xs:text-4xl sm:text-6xl md:text-7xl">
                                 {totalStats.profit >= 0 ? "+$" : "-$"}
                                 <Counter value={Math.abs(totalStats.profit)} />
                             </span>
-                            <div className="flex flex-col justify-end font-bold whitespace-nowrap text-xs xs:text-sm sm:text-lg md:text-xl">
+                            <div className="flex flex-col justify-end whitespace-nowrap text-lg xs:text-xl sm:text-2xl md:text-2xl">
                                 <span className="flex flex-row ">
                                     {totalStats.profit >= 0 ? "+" : "-"}
                                     <Counter value={calcUnits(Math.abs(totalStats.profit))} />u
