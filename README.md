@@ -7,17 +7,10 @@ This is a personal project showcasing my **+EV betting model** that identifies a
 💻 [Visit the Live Site](https://d1nzshyp2a8e2d.cloudfront.net/)
 
 ## **Tech Stack**
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
 - **Frontend:** React (Vite + TS)  
 - **Backend:** AWS Lambda, API Gateway  
-- **Infrastructure:** S3 (REST API), CloudFront (CDN), MongoDB Atlas (Data Storage)  
+- **Infrastructure:** S3 (REST API), CloudFront (CDN), MongoDB Atlas (Data Storage)
+<img src="https://img.shields.io/badge/Homarr-FA5252?style=for-the-badge&logo=homarr&logoColor=white" />
 
 ## **How It Works**
 1. **Bet Scraping**: The model pings an API every 5 minutes to check for betting lines with postive expected value.  
