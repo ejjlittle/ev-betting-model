@@ -3,6 +3,17 @@ from bs4 import BeautifulSoup
 import shared.constants as constants
 from pprint import pprint
 
+#--GET VIEWSTATE AND VALIDATION PAYLOAD VALUES--#
+def getSessionVals(session, url):
+    response = session.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    return {
+        "__VIEWSTATE": soup.find("input", {"name": "__VIEWSTATE"})["value"],
+        "__EVENTVALIDATION": soup.find("input", {"name": "__EVENTVALIDATION"})["value"]
+    }
+
+
 #--PARSE HTML INTO DATA--#
 def htmlParse(content):
     soup = BeautifulSoup(content, "html.parser")
@@ -54,11 +65,17 @@ def filterData(data, minEv, maxEv, leagues, books, minBooks):
 
 
 def main(minEv, maxEv, leagues, books, minBooks):
+    session = requests.Session()
+
+    #get dyanimic payload values
+    validation = getSessionVals(session, constants.CNO_URL)
+    payload = constants.CNO_DATA.copy() 
+    payload.update(validation)
+
     #get html response from CNO post request
-    response = requests.post(constants.CNO_URL, 
+    response = session.post(constants.CNO_URL, 
                             headers=constants.CNO_HEADERS,
-                            cookies=constants.CNO_COOKIES,
-                            data=constants.CNO_DATA)
+                            data=payload)
 
     #check requests connection
     if response.status_code != 200:
