@@ -36,20 +36,46 @@ def main(date):
     }
     '''
 
-    #get response from NBA get request
+    #get response from NBA stats for regular season
     url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&DateTo=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Regular%20Season&Sorter=DATE"
     #response = requests.get(url, headers=constants.NBA_HEADERS, proxies=proxies, verify="/opt/certificates/BrightData SSL certificate (port 33335).crt")
     response = requests.get(url, headers=constants.NBA_HEADERS)
     
-
     #check requests connection
     if response.status_code != 200:
         exit("Error fetching website data")
-
     data = parseData(response.json())
+
+    #return if there is any data found, otherwise must check if it is play ins or play offs
+    if data:
+        return data
+    
+    #get response from NBA stats for play in
+    url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&DateTo=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=PlayIn&Sorter=DATE"
+    #response = requests.get(url, headers=constants.NBA_HEADERS, proxies=proxies, verify="/opt/certificates/BrightData SSL certificate (port 33335).crt")
+    response = requests.get(url, headers=constants.NBA_HEADERS)
+    
+    #check requests connection
+    if response.status_code != 200:
+        exit("Error fetching website data")
+    data = parseData(response.json())
+    
+    if data:
+        return data
+    
+    #get response from NBA stats for playoffs
+    url = "https://stats.nba.com/stats/leaguegamelog?Counter=1000&DateFrom=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&DateTo=" + str(date.month) + "%2F" + str(date.day) + "%2F" + str(date.year % 100) + "&Direction=DESC&ISTRound=&LeagueID=00&PlayerOrTeam=P&Season=2024-25&SeasonType=Playoffs&Sorter=DATE"
+    #response = requests.get(url, headers=constants.NBA_HEADERS, proxies=proxies, verify="/opt/certificates/BrightData SSL certificate (port 33335).crt")
+    response = requests.get(url, headers=constants.NBA_HEADERS)
+    
+    #check requests connection
+    if response.status_code != 200:
+        exit("Error fetching website data")
+    data = parseData(response.json())
+    
     return data
 
 
 if __name__ == "__main__":
-    data = main(datetime.strptime("01/27/2025", "%m/%d/%Y")) 
+    data = main(datetime.strptime("04/16/2025", "%m/%d/%Y")) 
     print(data) #for dev

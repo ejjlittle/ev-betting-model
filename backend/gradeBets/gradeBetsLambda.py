@@ -69,5 +69,5 @@ def lambdaHandler(event, context):
 
 if __name__ == "__main__":
     placedBets = setup()
-    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("2025-02-11", "%Y-%m-%d"))
+    date, dailyProfit, numWon, numLost = gradeBets(placedBets, datetime.strptime("2025-05-08", "%Y-%m-%d"))
     print(date, dailyProfit, numWon, numLost) #for dev
